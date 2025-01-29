@@ -5,7 +5,7 @@ body {
 }
 
 .header {
-  background: #2c5f2d;
+  background: #D2665A;
   color: white;
   padding: 1rem;
 }
@@ -14,7 +14,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* max-width: 1200px; */
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -30,6 +30,29 @@ body {
 
 .nav-links a:hover {
   text-decoration: underline;
+}
+
+.nav-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.search-bar {
+  display: flex;
+  gap: 1rem;
+}
+
+.cart-icon {
+  color: black;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.cart-count {
+  color: white;
+  padding: 0.5rem;
+  /* font-size: 0.8rem; */
 }
 
 .logo {

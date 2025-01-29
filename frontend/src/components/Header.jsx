@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import appLogo from "../assets/images/ds-logo.png";
 
 const Header = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
@@ -9,7 +10,7 @@ const Header = () => {
     <header className="header">
       <nav className="nav">
         <Link to="/" className="logo">
-          D S Sons
+          <img src={appLogo} alt="DS Sons" height={40} width={150} />
         </Link>
         <div className="nav-links">
           <Link to="/products">Products</Link>
