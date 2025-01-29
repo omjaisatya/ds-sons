@@ -47,7 +47,7 @@ This project is an e-commerce application built using React, Vite, and Node.js.
    npm run dev
    ```
 
-3. Open your browser and navigate to `http://localhost:3000` to see the application running.
+3. Open your browser and navigate to `http://localhost:5173` to see the application running.
 
 ## Project Scripts
 
