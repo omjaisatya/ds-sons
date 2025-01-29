@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSearch } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import appLogo from "../assets/images/ds-logo.png";
 
@@ -20,7 +20,6 @@ const Header = () => {
         </div>
         <div className="nav-icons">
           <div className="search-bar">
-            <FaSearch className="search-icon" />
             <input type="text" placeholder="Search products..." />
           </div>
           <Link to="/cart" className="cart-icon">

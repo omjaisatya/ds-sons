@@ -42,6 +42,15 @@ body {
   gap: 1rem;
 }
 
+.search-bar>input[type="text"] {
+  background: transparent url("../src/assets/icons/search.svg") no-repeat 1px;
+}
+
+.search-bar>input::placeholder {
+  color: white;
+  text-align: center;
+}
+
 .cart-icon {
   color: black;
   justify-content: center;
