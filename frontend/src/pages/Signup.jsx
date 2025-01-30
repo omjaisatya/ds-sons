@@ -14,12 +14,6 @@ function Signup() {
 
   const saveUserData = async (uid, data) => {
     try {
-      // await setDoc(doc(db, "users", userId), {
-      //   name: data.name,
-      //   mobile: data.mobile,
-      //   email: data.email,
-      // });
-      // console.log("User data saved successfully!");
       await setDoc(doc(db, "users", uid), data, { merge: true });
       console.log("User data saved successfully");
     } catch (error) {
