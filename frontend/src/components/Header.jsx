@@ -44,7 +44,10 @@ const Header = () => {
               value={searchQuery}
               onChange={handleSearch}
             />
-            <Link to={`/products?search=${searchQuery}`}>
+            <Link
+              to={`/products?search=${searchQuery}`}
+              className="search-link"
+            >
               <FaSearch className="search-icon" />
             </Link>
           </div>

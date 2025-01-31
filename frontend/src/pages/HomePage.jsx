@@ -32,7 +32,7 @@ function HomePage() {
   };
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>Please Login or Register to show this Section</div>;
   }
   return (
     <div>
