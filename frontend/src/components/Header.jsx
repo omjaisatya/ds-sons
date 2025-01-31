@@ -2,15 +2,32 @@ import { Link } from "react-router-dom";
 import { FaBars, FaSearch, FaShoppingCart, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import appLogo from "../assets/images/ds-logo.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 const Header = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const [searchQuery, setSearchQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setMenuOpen(false);
   };
 
   return (
@@ -29,12 +46,22 @@ const Header = () => {
           <li>
             <Link to="/contact">Contact</Link>
           </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
+          {!user ? (
+            <>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/register">Register</Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
         <div className="nav-icons">
           <div className="search-bar">
@@ -56,9 +83,7 @@ const Header = () => {
             {cartQuantity > 0 && (
               <span className="cart-count">{cartQuantity}</span>
             )}
-            {/* <span className="cart-count">{cartQuantity}</span> */}
           </Link>
-
           <button
             className="menu-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -83,17 +108,27 @@ const Header = () => {
           <Link to="/contact" onClick={() => setMenuOpen(false)}>
             Contact
           </Link>
-          <li>
-            <Link to="/login" onClick={() => setMenuOpen(false)}>
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link to="/register" onClick={() => setMenuOpen(false)}>
-              Register
-            </Link>
-          </li>
         </li>
+        {!user ? (
+          <>
+            <li>
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/register" onClick={() => setMenuOpen(false)}>
+                Register
+              </Link>
+            </li>
+          </>
+        ) : (
+          <li>
+            <button className="logout-btn" onClick={() => handleLogout()}>
+              Logout
+            </button>
+          </li>
+        )}
       </ul>
     </header>
   );

@@ -25,11 +25,6 @@ function HomePage() {
     return () => unsubscribe();
   }, [auth]);
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
-
   if (!user) {
     return (
       <div className="auth-message">
@@ -48,10 +43,6 @@ function HomePage() {
             <p>Mobile: {userData.mobile}</p>
           </div>
         )}
-        <h2>{user.displayName}</h2>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
       </div>
     </div>
   );
