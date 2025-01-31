@@ -11,9 +11,12 @@ import {
   orderBy,
   query,
   getDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import "../assets/stylesheet/Reviews.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { IconsPack } from "../assets/icons/IconsPack";
 
 const Reviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
@@ -22,6 +25,9 @@ const Reviews = ({ productId }) => {
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
   const [averageRating, setAverageRating] = useState(0);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
+
+  const [showMore, setShowMore] = useState(false);
+  const [reviewsToShow, setReviewsToShow] = useState(5);
 
   const auth = getAuth();
   const [user, setUser] = useState(null);
@@ -57,6 +63,68 @@ const Reviews = ({ productId }) => {
     fetchReviews();
   }, [productId]);
 
+  const handleLike = async (reviewId) => {
+    if (!auth.currentUser) {
+      alert("Please login to like or unlike reviews.");
+      return;
+    }
+
+    const review = reviews.find((r) => r.id === reviewId);
+    const reviewRef = doc(db, "products", productId, "reviews", reviewId);
+
+    const currentLikes = review.likes || [];
+    const currentUnlikes = review.unlikes || [];
+
+    if (currentLikes.includes(auth.currentUser.uid)) {
+      await updateDoc(reviewRef, {
+        likes: arrayRemove(auth.currentUser.uid),
+      });
+    } else {
+      await updateDoc(reviewRef, {
+        likes: arrayUnion(auth.currentUser.uid),
+      });
+    }
+
+    if (currentUnlikes.includes(auth.currentUser.uid)) {
+      await updateDoc(reviewRef, {
+        unlikes: arrayRemove(auth.currentUser.uid),
+      });
+    }
+
+    fetchReviews();
+  };
+
+  const handleUnlike = async (reviewId) => {
+    if (!auth.currentUser) {
+      alert("Please login to like or unlike reviews.");
+      return;
+    }
+
+    const review = reviews.find((r) => r.id === reviewId);
+    const reviewRef = doc(db, "products", productId, "reviews", reviewId);
+
+    const currentLikes = review.likes || [];
+    const currentUnlikes = review.unlikes || [];
+
+    if (currentUnlikes.includes(auth.currentUser.uid)) {
+      await updateDoc(reviewRef, {
+        unlikes: arrayRemove(auth.currentUser.uid),
+      });
+    } else {
+      await updateDoc(reviewRef, {
+        unlikes: arrayUnion(auth.currentUser.uid),
+      });
+    }
+
+    if (currentLikes.includes(auth.currentUser.uid)) {
+      await updateDoc(reviewRef, {
+        likes: arrayRemove(auth.currentUser.uid),
+      });
+    }
+
+    fetchReviews();
+  };
+
   const addReview = async () => {
     if (!auth.currentUser) {
       alert("You must be logged in to leave a review.");
@@ -86,6 +154,8 @@ const Reviews = ({ productId }) => {
               userId: currentUser.uid,
               userName: userData.name,
               timestamp: new Date(),
+              likes: [],
+              unlikes: [],
             });
           }
         }
@@ -139,6 +209,15 @@ const Reviews = ({ productId }) => {
     }
   };
 
+  const handleShowMore = () => {
+    if (showMore) {
+      setReviewsToShow(5);
+    } else {
+      setReviewsToShow(reviews.length);
+    }
+    setShowMore(!showMore);
+  };
+
   return (
     <div className="reviews">
       <h3>Customer Reviews</h3>
@@ -147,43 +226,82 @@ const Reviews = ({ productId }) => {
       </div>
 
       {reviews.length > 0 ? (
-        reviews.map((review) => (
-          <div key={review.id} className="review-item">
-            <p className="review-text">{review.text}</p>
-            <div className="review-rating">Rating: {review.rating} ⭐</div>
-            <div className="review-user">
-              <strong>{review.userName}</strong> on{" "}
-              {new Date(review.timestamp.seconds * 1000).toLocaleDateString()}
-            </div>
-            {review.userId === auth.currentUser?.uid && (
+        reviews.slice(0, reviewsToShow).map((review) => {
+          const currentLikes = review.likes || [];
+          const currentUnlikes = review.unlikes || [];
+          return (
+            <div key={review.id} className="review-item">
+              <p className="review-text">{review.text}</p>
+              <div className="review-rating">Rating: {review.rating} ⭐</div>
+              <div className="review-user">
+                <strong>{review.userName}</strong> on{" "}
+                {new Date(review.timestamp.seconds * 1000).toLocaleDateString()}
+              </div>
               <div className="review-actions">
                 <button
-                  className="delete-btn"
-                  onClick={() => deleteReview(review.id)}
+                  onClick={() => handleLike(review.id)}
+                  className={`like-btn ${
+                    currentLikes.includes(auth.currentUser?.uid) ? "liked" : ""
+                  }`}
                 >
-                  Delete
+                  {currentLikes.includes(auth.currentUser?.uid)
+                    ? "Unlike"
+                    : "Like"}{" "}
+                  ({currentLikes.length})
                 </button>
                 <button
-                  className="edit-btn"
-                  onClick={() => {
-                    const newText = prompt("Edit your review:", review.text);
-                    const newRating = parseInt(
-                      prompt("Rate from 1 to 5 stars:", review.rating),
-                      10
-                    );
-                    if (newText && newRating) {
-                      editReview(review.id, newText, newRating);
-                    }
-                  }}
+                  onClick={() => handleUnlike(review.id)}
+                  className={`unlike-btn ${
+                    currentUnlikes.includes(auth.currentUser?.uid)
+                      ? "unliked"
+                      : ""
+                  }`}
                 >
-                  Edit
+                  {currentUnlikes.includes(auth.currentUser?.uid)
+                    ? "Remove Unlike"
+                    : "Unlike"}
+                  ({currentUnlikes.length})
                 </button>
+                {review.userId === auth.currentUser?.uid && (
+                  <>
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteReview(review.id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="edit-btn"
+                      onClick={() => {
+                        const newText = prompt(
+                          "Edit your review:",
+                          review.text
+                        );
+                        const newRating = parseInt(
+                          prompt("Rate from 1 to 5 stars:", review.rating),
+                          10
+                        );
+                        if (newText && newRating) {
+                          editReview(review.id, newText, newRating);
+                        }
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </>
+                )}
               </div>
-            )}
-          </div>
-        ))
+            </div>
+          );
+        })
       ) : (
         <p className="no-reviews">No reviews yet. Be the first to review!</p>
+      )}
+
+      {reviews.length > 5 && (
+        <button className="see-more-btn" onClick={handleShowMore}>
+          {showMore ? "See Less" : "See More"}
+        </button>
       )}
 
       {!isReviewSubmitted ? (
