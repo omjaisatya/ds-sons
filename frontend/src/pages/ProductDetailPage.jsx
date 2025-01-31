@@ -1,18 +1,30 @@
 import { useParams } from "react-router-dom";
 import Reviews from "./Reviews";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectProductById } from "../store/productSlice";
 import "../assets/stylesheet/ProductDetailPage.css";
+import { cartActions } from "../store/cartSlice";
 
 function ProductDetailPage() {
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    dispatch(
+      cartActions.addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      })
+    );
+  };
+
   const { productId } = useParams();
   const product = useSelector((state) => selectProductById(state, productId));
 
   if (!product) {
     return <h2>Product not found</h2>;
   }
-
-  console.log(product.image);
 
   return (
     <div className="product-detail-page">
@@ -28,7 +40,9 @@ function ProductDetailPage() {
           <div className="product-price">
             <span className="price">₹{product.price}</span> / {product.weight}
           </div>
-          <button className="add-to-cart-btn">Add to Cart</button>
+          <button className="add-to-cart-btn" onClick={addToCartHandler}>
+            Add to Cart
+          </button>
         </div>
       </div>
 
