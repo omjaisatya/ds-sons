@@ -6,7 +6,6 @@
 
 .glass-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
@@ -17,9 +16,6 @@
     transition: transform 0.3s ease;
 }
 
-.glass-card:hover {
-    transform: scale(1.05);
-}
 
 .auth-message {
     text-align: center;
