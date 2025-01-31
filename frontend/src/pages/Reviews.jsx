@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import "../assets/stylesheet/Reviews.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-// import { IconsPack } from "../assets/icons/IconsPack";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 const Reviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
@@ -244,6 +244,7 @@ const Reviews = ({ productId }) => {
                     currentLikes.includes(auth.currentUser?.uid) ? "liked" : ""
                   }`}
                 >
+                  <FaThumbsUp className="like-icon" />
                   {currentLikes.includes(auth.currentUser?.uid)
                     ? "Unlike"
                     : "Like"}{" "}
@@ -257,9 +258,10 @@ const Reviews = ({ productId }) => {
                       : ""
                   }`}
                 >
+                  <FaThumbsDown className="unlike-icon" />
                   {currentUnlikes.includes(auth.currentUser?.uid)
                     ? "Remove Unlike"
-                    : "Unlike"}
+                    : "Unlike"}{" "}
                   ({currentUnlikes.length})
                 </button>
                 {review.userId === auth.currentUser?.uid && (
