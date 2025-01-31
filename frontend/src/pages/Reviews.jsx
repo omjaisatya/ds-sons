@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { db, auth } from "../auth/firebase";
+import { db } from "../auth/firebase";
 import {
   collection,
   getDocs,
@@ -10,18 +10,22 @@ import {
   updateDoc,
   orderBy,
   query,
+  getDoc,
 } from "firebase/firestore";
 import "../assets/stylesheet/Reviews.css";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Reviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
-  const [rating, setRating] = useState(5); // Default rating
+  const [rating, setRating] = useState(5);
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
   const [averageRating, setAverageRating] = useState(0);
-  const [isInputDisabled, setIsInputDisabled] = useState(false); // New state for input disable
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
 
-  console.log("Auuth", auth);
+  const auth = getAuth();
+  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   const fetchReviews = async () => {
     try {
@@ -66,21 +70,31 @@ const Reviews = ({ productId }) => {
     try {
       const reviewsRef = collection(db, "products", productId, "reviews");
 
-      const userName = auth.currentUser.name || `User ${auth.currentUser.uid}`;
+      onAuthStateChanged(auth, async (currentUser) => {
+        setUser(currentUser);
+        console.log("Current user:", currentUser);
 
-      await addDoc(reviewsRef, {
-        text: newReview,
-        rating,
-        userId: auth.currentUser.uid,
-        // userName: auth.currentUser.displayName || "Anonymous",
-        userName,
-        timestamp: new Date(),
+        if (currentUser) {
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserData(userData);
+
+            await addDoc(reviewsRef, {
+              text: newReview,
+              rating,
+              userId: currentUser.uid,
+              userName: userData.name,
+              timestamp: new Date(),
+            });
+          }
+        }
       });
 
       setNewReview("");
       setRating(5);
       setIsReviewSubmitted(true);
-      setIsInputDisabled(true); // Disable the input after review submission
+      setIsInputDisabled(true);
       fetchReviews();
     } catch (error) {
       console.error("Error adding review:", error);
@@ -179,7 +193,7 @@ const Reviews = ({ productId }) => {
             onChange={(e) => setNewReview(e.target.value)}
             placeholder="Write a review..."
             className="review-input"
-            disabled={isInputDisabled} // Disable when a rating is selected
+            disabled={isInputDisabled}
           />
           <div className="rating-stars">
             <span>Rating:</span>
@@ -188,7 +202,7 @@ const Reviews = ({ productId }) => {
                 key={star}
                 onClick={() => {
                   setRating(star);
-                  setIsInputDisabled(true); // Disable input after selecting a rating
+                  setIsInputDisabled(true);
                 }}
                 style={{
                   cursor: "pointer",
