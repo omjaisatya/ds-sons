@@ -306,7 +306,7 @@ const Reviews = ({ productId }) => {
         </button>
       )}
 
-      {!isReviewSubmitted ? (
+      {!isReviewSubmitted && auth.currentUser ? (
         <div className="review-form">
           <textarea
             value={newReview}
@@ -339,7 +339,9 @@ const Reviews = ({ productId }) => {
           </button>
         </div>
       ) : (
-        <p className="review-submitted">Your review has been submitted!</p>
+        !auth.currentUser && (
+          <p className="review-submitted">Please login to submit a review.</p>
+        )
       )}
     </div>
   );
