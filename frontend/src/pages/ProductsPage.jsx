@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import { useSelector } from "react-redux";
+import { selectProducts } from "../store/productSlice";
 
 const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -9,31 +11,7 @@ const ProductsPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get("search") || "";
 
-  // Temporary mock data
-  const products = [
-    {
-      id: 1,
-      name: "Premium Poha",
-      price: 45,
-      category: "breakfast",
-      image: "/images/poha.jpg",
-      weight: "500g",
-      description: "Traditional flattened rice, perfect for quick breakfast",
-      ingredients: "Rice, salt",
-      dietary: "Vegetarian",
-    },
-    {
-      id: 2,
-      name: "Masala Mixture",
-      price: 85,
-      category: "snacks",
-      image: "/images/mixture.jpg",
-      weight: "1kg",
-      description: "Crispy savory snack mix",
-      ingredients: "Chickpea flour, peanuts, spices",
-      dietary: "Vegetarian",
-    },
-  ];
+  const products = useSelector(selectProducts);
 
   const filteredProducts = products
     .filter(
