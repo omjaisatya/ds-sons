@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../auth/firebase";
 import { useState } from "react";
-import Reviews from "./Reviews";
 
 function HomePage() {
   const auth = getAuth();
@@ -48,7 +47,6 @@ function HomePage() {
         <h2>{user.displayName}</h2>
         <button onClick={handleLogout}>Logout</button>
       </div>
-      <Reviews />
     </div>
   );
 }
