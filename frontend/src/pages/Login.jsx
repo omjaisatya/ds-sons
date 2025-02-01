@@ -18,6 +18,10 @@ function Login() {
         password
       );
       const user = userCredential.user;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: user.email, uid: user.uid })
+      );
       console.log("Logged in user:", user);
       navigate("/");
     } catch (error) {

@@ -30,6 +30,10 @@ function Signup() {
         password
       );
       const user = userCredential.user;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: user.email, uid: user.uid })
+      );
       console.log("Signed up user:", user);
 
       await saveUserData(user.uid, { name, mobile });
