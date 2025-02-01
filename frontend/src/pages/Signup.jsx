@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../auth/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+import "../assets/stylesheet/Signup.css"; // Assuming you have separate CSS for Signup
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -44,40 +45,53 @@ function Signup() {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSignup}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="tel"
-          placeholder="Mobile Number"
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
-          required
-        />
-        <button type="submit">Signup</button>
-      </form>
+    <div className="signup-page">
+      <div className="signup-container">
+        <div className="signup-form">
+          <h2>Create Account</h2>
+          {error && <p className="error-message">{error}</p>}
+          <form onSubmit={handleSignup}>
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="input-field"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="input-field"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="input-field"
+            />
+            <input
+              type="tel"
+              placeholder="Mobile Number"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              required
+              className="input-field"
+            />
+            <button type="submit" className="submit-button">
+              Signup
+            </button>
+          </form>
+          <div>
+            Already have an Account <Link to="/login">Login</Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
