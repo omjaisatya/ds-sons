@@ -1,5 +1,5 @@
 import "./App.css";
-import { Provider, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
@@ -8,7 +8,6 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import store from "./store/store";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -16,6 +15,7 @@ import OrderTracking from "./pages/OrderTracking";
 import { useEffect } from "react";
 import { authActions } from "./store/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +50,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/track-order" element={<OrderTracking />} />
       </Routes>
+      <SpeedInsights />
     </Router>
   );
 }
