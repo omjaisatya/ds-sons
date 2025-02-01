@@ -15,7 +15,6 @@ import OrderTracking from "./pages/OrderTracking";
 import { useEffect } from "react";
 import { authActions } from "./store/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,7 +49,6 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/track-order" element={<OrderTracking />} />
       </Routes>
-      <SpeedInsights />
     </Router>
   );
 }
