@@ -11,7 +11,16 @@ const Auth = () => {
 
   const handleSignUp = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: user.email, uid: user.uid })
+      );
       alert("Account created successfully!");
     } catch (error) {
       alert(error.message);
@@ -20,7 +29,16 @@ const Auth = () => {
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: user.email, uid: user.uid })
+      );
       alert("Logged in successfully!");
     } catch (error) {
       alert(error.message);

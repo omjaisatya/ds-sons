@@ -1,25 +1,32 @@
 import { Link } from "react-router-dom";
 import { FaBars, FaSearch, FaShoppingCart, FaTimes } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import appLogo from "../assets/images/ds-logo.png";
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { authActions } from "../store/authSlice";
+import { cartActions } from "../store/cartSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
+  const user = useSelector((state) => state.auth.user);
   const [searchQuery, setSearchQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
 
   const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        dispatch(authActions.setUser(currentUser));
+      } else {
+        dispatch(authActions.logout());
+      }
     });
 
     return () => unsubscribe();
-  }, [auth]);
+  }, [auth, dispatch]);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -28,6 +35,8 @@ const Header = () => {
   const handleLogout = async () => {
     await signOut(auth);
     setMenuOpen(false);
+    dispatch(authActions.logout());
+    dispatch(cartActions.clearCart());
   };
 
   return (
@@ -45,6 +54,12 @@ const Header = () => {
           </li>
           <li>
             <Link to="/contact">Contact</Link>
+          </li>
+          <li>
+            <Link to="/admin">Admin</Link>
+          </li>
+          <li>
+            <Link to="/track-order">Track Order</Link>
           </li>
           {!user ? (
             <>
@@ -93,6 +108,7 @@ const Header = () => {
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       <ul className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <li>
           <Link to="/products" onClick={() => setMenuOpen(false)}>
@@ -124,7 +140,7 @@ const Header = () => {
           </>
         ) : (
           <li>
-            <button className="logout-btn" onClick={() => handleLogout()}>
+            <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
           </li>
