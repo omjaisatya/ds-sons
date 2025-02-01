@@ -4,8 +4,8 @@ const initialState = {
   products: [
     {
       id: "1",
-      name: "Premium Poha",
-      price: 45,
+      name: "Premium Raw Poha",
+      price: 20,
       category: "breakfast",
       image: "/images/raw-poha.png",
       weight: "500g",
