@@ -15,6 +15,8 @@ import OrderTracking from "./pages/OrderTracking";
 import { useEffect } from "react";
 import { authActions } from "./store/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./routes/AdminRoute";
+import AdminLogin from "./components/AdminLogin";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +48,24 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        {/* <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        /> */}
+
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
         <Route path="/track-order" element={<OrderTracking />} />
       </Routes>
     </Router>
