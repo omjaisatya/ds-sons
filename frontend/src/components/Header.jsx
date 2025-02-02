@@ -56,9 +56,6 @@ const Header = () => {
             <Link to="/contact">Contact</Link>
           </li>
           <li>
-            <Link to="/admin">Admin</Link>
-          </li>
-          <li>
             <Link to="/track-order">Track Order</Link>
           </li>
           {!user ? (
@@ -71,11 +68,16 @@ const Header = () => {
               </li>
             </>
           ) : (
-            <li>
-              <button className="logout-btn" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
+            <>
+              <li>
+                <button className="logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+              <li>
+                <Link to="/admin/login">Admin</Link>
+              </li>
+            </>
           )}
         </ul>
         <div className="nav-icons">
@@ -125,7 +127,7 @@ const Header = () => {
             Contact
           </Link>
           <li>
-            <Link to="/admin" onClick={() => setMenuOpen(false)}>
+            <Link to="/admin/login" onClick={() => setMenuOpen(false)}>
               Admin
             </Link>
           </li>
