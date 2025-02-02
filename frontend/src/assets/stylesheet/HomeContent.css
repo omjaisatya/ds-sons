@@ -1,0 +1,157 @@
+.home-container {
+    text-align: center;
+}
+
+.hero-container {
+    height: 50vh;
+    background: url('/images/hero-bg.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    padding: 12px 20px;
+    background-color: #ff5722;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background-color: #e64a19;
+}
+
+/* Categories Section */
+.categories {
+    padding: 40px 20px;
+}
+
+.categories h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.category-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.category-item {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.category-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.category-item:hover {
+    transform: scale(1.05);
+}
+
+/* Featured Products */
+.featured-products {
+    padding: 40px 20px;
+    background-color: #fff;
+}
+
+.product-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.product-item {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.product-item img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+}
+
+.product-item span {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* CTA Section */
+.cta {
+    padding: 50px 20px;
+    background-color: #ff5722;
+    color: white;
+}
+
+.cta h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.cta p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.btn-secondary {
+    padding: 12px 20px;
+    background-color: white;
+    color: #ff5722;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.btn-secondary:hover {
+    background-color: #f4f4f4;
+}
+
+
+@media (max-width: 768px) {
+    .hero-container {
+        height: 50vh;
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center center;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .category-grid,
+    .product-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+}

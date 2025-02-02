@@ -47,6 +47,23 @@ const initialState = {
       dietary: "Vegetarian",
     },
   ],
+  categories: [
+    {
+      id: "1",
+      name: "Breakfast",
+      image: "/images/category/breakfast-category-home.png",
+    },
+    {
+      id: "2",
+      name: "Snacks",
+      image: "/images/category/snack-category-home.png",
+    },
+    {
+      id: "3",
+      name: "Drinks",
+      image: "/images/category/drink-category-home.png",
+    },
+  ],
 };
 
 const productSlice = createSlice({
@@ -58,5 +75,6 @@ const productSlice = createSlice({
 export const selectProducts = (state) => state.products.products;
 export const selectProductById = (state, productId) =>
   state.products.products.find((product) => product.id === productId);
+export const selectCategories = (state) => state.products.categories;
 
 export default productSlice.reducer;
