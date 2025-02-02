@@ -30,7 +30,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
+    <Router basename="/">
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
