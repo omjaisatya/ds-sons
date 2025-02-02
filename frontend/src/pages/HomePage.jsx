@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../auth/firebase";
 import "../assets/stylesheet/HomePage.css";
+import HomeContent from "./HomeContent";
 
 function HomePage() {
   const auth = getAuth();
@@ -26,11 +27,7 @@ function HomePage() {
   }, [auth]);
 
   if (!user) {
-    return (
-      <div className="auth-message">
-        Please Login or Register to show this Section
-      </div>
-    );
+    return <div className="auth-message"></div>;
   }
 
   return (
