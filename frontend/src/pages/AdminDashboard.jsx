@@ -193,7 +193,7 @@ const AdminDashboard = () => {
       {/* Product Edit/Add Modal */}
       <Modal
         title={selectedProduct ? "Edit Product" : "Add New Product"}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
