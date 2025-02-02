@@ -2,7 +2,7 @@ import "./App.css";
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import HomePage from "./pages/HomePage";
+// import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
@@ -17,6 +17,7 @@ import { authActions } from "./store/authSlice";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
 import AdminLogin from "./components/AdminLogin";
+import HomeContent from "./pages/HomeContent";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,7 +34,8 @@ function App() {
     <Router basename="/">
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/" element={<HomePage />} /> */}
+        <Route path="/" element={<HomeContent />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route
