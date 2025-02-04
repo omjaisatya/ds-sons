@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../auth/firebase";
 import "../assets/stylesheet/HomePage.css";
-import HomeContent from "./HomeContent";
 
 function HomePage() {
   const auth = getAuth();
