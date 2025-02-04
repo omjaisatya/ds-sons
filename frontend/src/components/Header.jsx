@@ -126,16 +126,16 @@ const Header = () => {
           <Link to="/contact" onClick={() => setMenuOpen(false)}>
             Contact
           </Link>
-          <li>
-            <Link to="/admin/login" onClick={() => setMenuOpen(false)}>
-              Admin
-            </Link>
-          </li>
-          <li>
-            <Link to="/track-order" onClick={() => setMenuOpen(false)}>
-              Track Order
-            </Link>
-          </li>
+        </li>
+        <li>
+          <Link to="/admin/login" onClick={() => setMenuOpen(false)}>
+            Admin
+          </Link>
+        </li>
+        <li>
+          <Link to="/track-order" onClick={() => setMenuOpen(false)}>
+            Track Order
+          </Link>
         </li>
         {!user ? (
           <>
