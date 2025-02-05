@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
 import AdminLogin from "./components/AdminLogin";
 import HomeContent from "./pages/HomeContent";
+import NotFound from "./components/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ function App() {
           }
         />
         <Route path="/track-order" element={<OrderTracking />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
