@@ -1,0 +1,52 @@
+.not-found {
+    text-align: center;
+    padding: 50px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff6b6b, #f94c4c);
+    color: white;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.not-found h1 {
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.not-found h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.not-found p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.home-button {
+    text-decoration: none;
+    color: white;
+    background: #ffcc00;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.home-button:hover {
+    background: #ff9800;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
