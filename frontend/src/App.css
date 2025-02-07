@@ -1,3 +1,13 @@
+:root {
+  --first-color: #007bff;
+  --second-color: #D4F6FF;
+  --third-color: #C6E7FF;
+  --white-color: #FBFBFB;
+  --button-color: #FFDDAE;
+  --danger-color: #FF0000;
+  --font-color: #F2AE66;
+}
+
 * {
   margin: 0;
   padding: 0;
