@@ -6,8 +6,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #ff6b6b, #f94c4c);
-    color: white;
+    /* background: linear-gradient(135deg, #ff6b6b, #f94c4c); */
+    background-color: var(--second-color);
+    color: var(--font-color-dark);
     animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -28,8 +29,8 @@
 
 .home-button {
     text-decoration: none;
-    color: white;
-    background: #ffcc00;
+    color: var(--font-color-light);
+    background: var(--button-color);
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 18px;
@@ -37,7 +38,7 @@
 }
 
 .home-button:hover {
-    background: #ff9800;
+    background: var(--button-color-hover);
     transform: scale(1.05);
 }
 
