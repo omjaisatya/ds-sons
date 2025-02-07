@@ -4,8 +4,11 @@
   --third-color: #C6E7FF;
   --white-color: #FBFBFB;
   --button-color: #FFDDAE;
+  --button-color-dark: #16404D;
+  --button-color-hover: #3E7B27;
   --danger-color: #FF0000;
   --font-color: #F2AE66;
+  --font-color-2: #F96E2A;
 }
 
 * {
