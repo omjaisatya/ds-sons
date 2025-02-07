@@ -85,8 +85,10 @@ function HomeContent() {
           </>
         ) : (
           <>
-            <p>Ready to order more delicious snacks?</p>
-            <p>Discover fresh produce, dairy, and more at unbeatable prices!</p>
+            <p>
+              Ready to order more delicious snacks? <br /> Discover fresh
+              produce, dairy, and more at unbeatable prices!
+            </p>
           </>
         )}
       </section>
