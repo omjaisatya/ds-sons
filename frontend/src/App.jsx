@@ -19,6 +19,7 @@ import AdminRoute from "./routes/AdminRoute";
 import AdminLogin from "./components/AdminLogin";
 import HomeContent from "./pages/HomeContent";
 import NotFound from "./components/NotFound";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ function App() {
         />
         <Route path="/track-order" element={<OrderTracking />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/error-page" element={<ErrorPage />} />
       </Routes>
     </Router>
   );

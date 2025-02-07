@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../store/cartSlice";
 import "../assets/stylesheet/CartPage.css";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -52,7 +53,9 @@ const CartPage = () => {
 
           <div className="cart-summary">
             <h2>Total: ₹{totalAmount}</h2>
-            <button className="checkout-btn">Proceed to Checkout</button>
+            <Link to="/error-page" className="checkout-btn">
+              Proceed to Checkout
+            </Link>
           </div>
         </>
       )}

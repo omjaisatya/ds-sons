@@ -1,0 +1,99 @@
+.user-page {
+    text-align: center;
+    padding: 50px 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.user-page h1 {
+    font-size: 2rem;
+    color: #ff6600;
+    margin-bottom: 15px;
+}
+
+.user-page p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.user-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #ff6600;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #555;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #e65c00;
+}
+
+.btn-secondary:hover {
+    background: #333;
+}
+
+.info-box {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-box h3 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-box ul li {
+    font-size: 1rem;
+    color: #555;
+    padding: 5px 0;
+    position: relative;
+}
+
+.info-box ul li::before {
+    content: "✔";
+    color: #ff6600;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+
+@media (max-width: 600px) {
+    .user-options {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+}
