@@ -128,11 +128,6 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Link to="/admin/login" onClick={() => setMenuOpen(false)}>
-            Admin
-          </Link>
-        </li>
-        <li>
           <Link to="/track-order" onClick={() => setMenuOpen(false)}>
             Track Order
           </Link>
@@ -151,11 +146,18 @@ const Header = () => {
             </li>
           </>
         ) : (
-          <li>
-            <button className="logout-btn" onClick={handleLogout}>
-              Logout
-            </button>
-          </li>
+          <>
+            <li>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+            <li>
+              <Link to="/admin/login" onClick={() => setMenuOpen(false)}>
+                Admin
+              </Link>
+            </li>
+          </>
         )}
       </ul>
     </header>
