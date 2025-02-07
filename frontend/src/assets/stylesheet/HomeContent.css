@@ -17,7 +17,7 @@
 .hero-content h1 {
     font-size: 36px;
     margin-bottom: 10px;
-    color: #ff5722;
+    color: var(--font-color);
 }
 
 .hero-content p {
@@ -27,15 +27,15 @@
 
 .btn-primary {
     padding: 12px 20px;
-    background-color: #ff5722;
-    color: white;
+    background-color: var(--button-color-dark);
+    color: var(--font-color-light);
     text-decoration: none;
     border-radius: 8px;
     font-size: 16px;
 }
 
 .btn-primary:hover {
-    background-color: #e64a19;
+    background-color: var(--button-color-hover);
 }
 
 /* Categories Section */
@@ -55,7 +55,7 @@
 }
 
 .category-item {
-    background: white;
+    background: var(--font-color-light);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -76,7 +76,7 @@
 /* Featured Products */
 .featured-products {
     padding: 40px 20px;
-    background-color: #fff;
+    background-color: var(--font-color-light);
 }
 
 .product-grid {
@@ -86,7 +86,7 @@
 }
 
 .product-item {
-    background: white;
+    background: var(--font-color-light);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -109,8 +109,8 @@
 /* CTA Section */
 .cta {
     padding: 50px 20px;
-    background-color: #ff5722;
-    color: white;
+    background-color: var(--second-color);
+    color: var(--font-color);
 }
 
 .cta h2 {
@@ -125,15 +125,15 @@
 
 .btn-secondary {
     padding: 12px 20px;
-    background-color: white;
-    color: #ff5722;
+    background-color: var(--button-color-dark);
+    color: var(--font-color-light);
     text-decoration: none;
     border-radius: 8px;
     font-size: 16px;
 }
 
 .btn-secondary:hover {
-    background-color: #f4f4f4;
+    background-color: var(--button-color-hover);
 }
 
 

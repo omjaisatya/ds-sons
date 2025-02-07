@@ -9,6 +9,8 @@
   --danger-color: #FF0000;
   --font-color: #F2AE66;
   --font-color-2: #F96E2A;
+  --font-color-light: #ffffff;
+  --font-color-dark: #333;
 }
 
 * {

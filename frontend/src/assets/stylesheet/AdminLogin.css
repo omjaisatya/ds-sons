@@ -8,7 +8,6 @@
 }
 
 .login-box {
-    /* background: rgba(255, 255, 255, 0.15); */
     background-color: var(--second-color);
     backdrop-filter: blur(10px);
     border-radius: 12px;
