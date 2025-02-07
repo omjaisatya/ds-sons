@@ -11,6 +11,7 @@ function HomeContent() {
   const product1 = products[0];
   const product2 = products[1];
   const product3 = products[2];
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <div className="home-container">
@@ -73,10 +74,21 @@ function HomeContent() {
       {/* Call to Action Section */}
       <section className="cta">
         <h2>Get Fresh Snacks Delivered Instantly!</h2>
-        <p>Sign up now and enjoy exclusive discounts on your first order.</p>
-        <Link to="/register" className="btn-secondary">
-          Sign Up
-        </Link>
+        {!user ? (
+          <>
+            <p>
+              Sign up now and enjoy exclusive discounts on your first order.
+            </p>
+            <Link to="/register" className="btn-secondary">
+              Sign Up
+            </Link>
+          </>
+        ) : (
+          <>
+            <p>Ready to order more delicious snacks?</p>
+            <p>Discover fresh produce, dairy, and more at unbeatable prices!</p>
+          </>
+        )}
       </section>
       <Footer />
     </div>

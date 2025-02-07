@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: var(--font-color-light);
     text-align: center;
 }
 
@@ -27,7 +27,7 @@
 
 .btn-primary {
     padding: 12px 20px;
-    background-color: var(--button-color-dark);
+    background-color: var(--button-color);
     color: var(--font-color-light);
     text-decoration: none;
     border-radius: 8px;
@@ -110,17 +110,17 @@
 .cta {
     padding: 50px 20px;
     background-color: var(--second-color);
-    color: var(--font-color);
+    color: var(--font-color-dark);
 }
 
 .cta h2 {
     font-size: 28px;
     margin-bottom: 10px;
+    color: var(--font-color);
 }
 
 .cta p {
     font-size: 18px;
-    margin-bottom: 20px;
 }
 
 .btn-secondary {

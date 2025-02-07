@@ -3,7 +3,7 @@
   --second-color: #D4F6FF;
   --third-color: #C6E7FF;
   --white-color: #FBFBFB;
-  --button-color: #FFDDAE;
+  --button-color: #B82132;
   --button-color-dark: #16404D;
   --button-color-hover: #3E7B27;
   --danger-color: #FF0000;
@@ -11,6 +11,7 @@
   --font-color-2: #F96E2A;
   --font-color-light: #ffffff;
   --font-color-dark: #333;
+  --background-grey: #818C78;
 }
 
 * {
