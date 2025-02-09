@@ -12,6 +12,7 @@ import {
   FaShippingFast,
 } from "react-icons/fa";
 import CustomerReviews from "../components/CustomerReviews";
+import ChatIcon from "../chat/ChatIcon";
 
 function HomeContent() {
   const features = [
@@ -164,6 +165,7 @@ function HomeContent() {
           </Link>
         </div>
       </section>
+      {user && <ChatIcon />}
       <Footer />
     </div>
   );

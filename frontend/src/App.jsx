@@ -20,6 +20,8 @@ import AdminLogin from "./components/AdminLogin";
 import HomeContent from "./pages/HomeContent";
 import NotFound from "./components/NotFound";
 import ErrorPage from "./pages/ErrorPage";
+import AdminChat from "./chat/AdminChat";
+import CustomerChat from "./chat/CustomerChat";
 
 function App() {
   const dispatch = useDispatch();
