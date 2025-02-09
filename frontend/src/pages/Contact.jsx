@@ -57,13 +57,13 @@ const Contact = () => {
         <h3>Quick Support Links</h3>
         <ul>
           <li>
-            <a href="/faq">FAQs</a>
+            <Link to="/faq">FAQs</Link>
           </li>
           <li>
-            <a href="/track-order">Track My Order</a>
+            <Link to="/track-order">Track My Order</Link>
           </li>
           <li>
-            <a href="/returns">Return & Refund Policy</a>
+            <Link to="/returns">Return & Refund Policy</Link>
           </li>
         </ul>
       </div>
