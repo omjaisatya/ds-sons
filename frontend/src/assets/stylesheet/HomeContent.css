@@ -109,14 +109,14 @@
 /* CTA Section */
 .cta {
     padding: 50px 20px;
-    background-color: var(--second-color);
+    /* background-color: var(--second-color); */
     color: var(--font-color-dark);
 }
 
 .cta h2 {
     font-size: 28px;
     margin-bottom: 10px;
-    color: var(--font-color);
+    /* color: var(--font-color); */
 }
 
 .cta p {
@@ -137,6 +137,109 @@
     background-color: var(--button-color-hover);
 }
 
+/* Why Choose US */
+.why-choose-us {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f9f9f9;
+}
+
+.why-choose-us h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.feature-card {
+    background: #fff;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon {
+    font-size: 2.5rem;
+    color: #ff6600;
+    margin-bottom: 10px;
+}
+
+.feature-card h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Why Choose US End */
+
+/* About US */
+
+.about-us {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9f9f9;
+}
+
+.about-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-us h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.about-us p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #ff6600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+    background: #e55d00;
+}
+
+/* About us END */
+
+@media (max-width: 768px) {
+    .about-content {
+        padding: 0 15px;
+    }
+}
+
 
 @media (max-width: 768px) {
     .hero-container {
@@ -154,5 +257,14 @@
     .product-grid {
         flex-direction: column;
         align-items: center;
+    }
+
+    .features-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-card {
+        width: 90%;
     }
 }
