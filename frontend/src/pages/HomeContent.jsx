@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "../assets/stylesheet/HomeContent.css";
-import HomePage from "./HomePage";
 import { useSelector } from "react-redux";
 import { selectCategories, selectProducts } from "../store/productSlice";
 import Footer from "../components/Footer";
@@ -13,6 +12,7 @@ import {
 } from "react-icons/fa";
 import CustomerReviews from "../components/CustomerReviews";
 import ChatIcon from "../chat/ChatIcon";
+import NotificationBar from "../components/NotificationBar";
 
 function HomeContent() {
   const features = [
@@ -52,7 +52,8 @@ function HomeContent() {
 
   return (
     <div className="home-container">
-      <HomePage />
+      {/* <HomePage /> */}
+      <NotificationBar />
       <section className="hero-container">
         <div className="hero-content">
           <h1>Fresh Snacks Delivered to Your Doorstep</h1>
@@ -61,10 +62,9 @@ function HomeContent() {
           </p>
           <p>
             Enjoy the goodness of fresh Sattu, Roasted Channa, Poha, and
-            more—all sourced with care to <br />
-            bring you the best quality at unbeatable prices. Perfect for healthy
-            snacking and everyday essentials. <br /> Order now and get them
-            delivered straight to your home!
+            more—all sourced with care to bring you the best quality at
+            unbeatable prices. Perfect for healthy snacking and everyday
+            essentials. Order now and get them delivered straight to your home!
           </p>
           <Link to="/products" className="btn-primary">
             Shop Now
@@ -74,7 +74,7 @@ function HomeContent() {
 
       {/* Categories Section */}
       <section className="categories">
-        <h2>Shop by Category</h2>
+        <h1>Shop by Category</h1>
         <div className="category-grid">
           {categories.map((category) => (
             <div key={category.id} className="category-item">
@@ -87,7 +87,7 @@ function HomeContent() {
 
       {/* Featured Products Section */}
       <section className="featured-products">
-        <h2>Featured Products</h2>
+        <h1>Featured Products</h1>
         <div className="product-grid">
           <div className="product-item">
             <img src={product1.image} alt={product1.name} />
@@ -117,7 +117,7 @@ function HomeContent() {
 
       {/* Call to Action Section */}
       <section className="cta">
-        <h2>Get Fresh Snacks Delivered Instantly!</h2>
+        <h1>Get Fresh Snacks Delivered Instantly!</h1>
         {!user ? (
           <>
             <p>
@@ -139,7 +139,7 @@ function HomeContent() {
       </section>
 
       <section className="why-choose-us">
-        <h2>Why Choose Us?</h2>
+        <h1>Why Choose Us?</h1>
         <div className="features-container">
           {features.map((feature, index) => (
             <div className="feature-card" key={index}>
@@ -153,7 +153,7 @@ function HomeContent() {
       <CustomerReviews />
       <section className="about-us">
         <div className="about-content">
-          <h2>Our Story</h2>
+          <h1>Our Story</h1>
           <p>
             Welcome to <strong>D S & Sons</strong>, your trusted online
             marketplace for high-quality products. We bring the best deals with

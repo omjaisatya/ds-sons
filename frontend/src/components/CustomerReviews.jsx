@@ -16,7 +16,7 @@ const CustomerReviews = () => {
 
   return (
     <section className="customer-reviews">
-      <h2>Customer Reviews & Testimonials</h2>
+      <h1>Customer Reviews & Testimonials</h1>
       <div className="reviews-container">
         {reviews.map((review, index) => (
           <div className="review-card" key={index}>

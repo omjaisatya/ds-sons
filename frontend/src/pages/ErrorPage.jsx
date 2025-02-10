@@ -26,6 +26,10 @@ const ErrorPage = () => {
           <li>Secure Payments Methods</li>
           <li>Exclusive member discounts</li>
           <li>Order history & tracking</li>
+          <li>More products & categories</li>
+          <li>App For Android(Working on that)</li>
+          <li>Customer Support Chats</li>
+          <li>Improvements of UI and UX, Customer Experience</li>
         </ul>
       </div>
     </div>
