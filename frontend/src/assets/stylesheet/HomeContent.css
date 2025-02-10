@@ -3,7 +3,7 @@
 }
 
 .hero-container {
-    height: 50vh;
+    height: 60vh;
     background: url('/images/hero-bg.jpg') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
@@ -16,13 +16,15 @@
 
 .hero-content h1 {
     font-size: 36px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     color: var(--font-color);
+    margin: 30px;
 }
 
 .hero-content p {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin: 30px;
+    max-width: 700px;
 }
 
 .btn-primary {
@@ -43,9 +45,9 @@
     padding: 40px 20px;
 }
 
-.categories h2 {
-    font-size: 28px;
+.categories h1 {
     margin-bottom: 20px;
+    font-weight: var(--weight);
 }
 
 .category-grid {
@@ -75,8 +77,12 @@
 
 /* Featured Products */
 .featured-products {
-    padding: 40px 20px;
+    /* padding: 40px 20px; */
     background-color: var(--font-color-light);
+}
+
+.featured-products h1 {
+    font-weight: var(--weight);
 }
 
 .product-grid {
@@ -109,19 +115,18 @@
 /* CTA Section */
 .cta {
     padding: 50px 20px;
-    /* background-color: var(--second-color); */
     color: var(--font-color-dark);
 }
 
-.cta h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    /* color: var(--font-color); */
+.cta h1 {
+    /* font-size: 28px; */
+    margin-bottom: 30px;
+    font-weight: var(--weight);
 }
 
 .cta p {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 .btn-secondary {
@@ -144,10 +149,11 @@
     background: #f9f9f9;
 }
 
-.why-choose-us h2 {
+.why-choose-us h1 {
     font-size: 2rem;
     margin-bottom: 30px;
     color: #333;
+    font-weight: var(--weight);
 }
 
 .features-container {
@@ -203,17 +209,23 @@
     margin: 0 auto;
 }
 
-.about-us h2 {
-    font-size: 2rem;
+.about-us h1 {
+    /* font-size: 2rem; */
     margin-bottom: 20px;
     color: #333;
+    font-weight: var(--weight);
 }
 
 .about-us p {
     font-size: 1rem;
     color: #555;
     line-height: 1.6;
-    margin-bottom: 20px;
+    padding: 30px;
+}
+
+.about-us strong {
+    color: var(--button-color);
+    font-weight: var(--weight);
 }
 
 .cta-button {
@@ -234,16 +246,10 @@
 
 /* About us END */
 
-@media (max-width: 768px) {
-    .about-content {
-        padding: 0 15px;
-    }
-}
-
 
 @media (max-width: 768px) {
     .hero-container {
-        height: 50vh;
+        height: 70vh;
         background-size: cover;
         background-attachment: fixed;
         background-position: center center;
@@ -255,16 +261,28 @@
 
     .category-grid,
     .product-grid {
-        flex-direction: column;
+        /* flex-direction: column; */
+        flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     .features-container {
-        flex-direction: column;
+        /* flex-direction: column;
+        align-items: center; */
+
+        flex-direction: row;
         align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
     .feature-card {
         width: 90%;
+        /* background-color: var(--second-color); */
+    }
+
+    .about-content {
+        padding: 0 15px;
     }
 }
