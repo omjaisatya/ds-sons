@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+
 :root {
   --first-color: #007bff;
   --second-color: #D4F6FF;
@@ -12,16 +15,20 @@
   --font-color-light: #ffffff;
   --font-color-dark: #333;
   --background-grey: #818C78;
+  --weight: 600;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Nunito Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
 .header {
@@ -217,6 +224,39 @@ body {
 .mobile-menu a:hover {
   color: var(--first-color);
 }
+
+/* Notification Bar start */
+.notification-container {
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--font-color);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px 0;
+}
+
+.notification-text {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--font-color-dark);
+  animation: scrollText 20s linear infinite;
+}
+
+@keyframes scrollText {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+
+/* Notification Bar end */
 
 @media (max-width: 768px) {
   .nav-links {
