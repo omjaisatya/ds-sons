@@ -4,10 +4,11 @@
     background: #fff;
 }
 
-.customer-reviews h2 {
-    font-size: 2rem;
+.customer-reviews h1 {
+    /* font-size: 2rem; */
     margin-bottom: 30px;
     color: #333;
+    font-weight: var(--weight);
 }
 
 .reviews-container {
