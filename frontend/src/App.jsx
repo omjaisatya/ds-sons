@@ -19,6 +19,7 @@ import AdminLogin from "./components/AdminLogin";
 import HomeContent from "./pages/HomeContent";
 import NotFound from "./components/NotFound";
 import ErrorPage from "./pages/ErrorPage";
+import NotificationBar from "./components/NotificationBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <Router basename="/">
+      <NotificationBar />
       <Header />
       <Routes>
         <Route path="/" element={<HomeContent />} />
