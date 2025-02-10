@@ -12,7 +12,6 @@ import {
 } from "react-icons/fa";
 import CustomerReviews from "../components/CustomerReviews";
 import ChatIcon from "../chat/ChatIcon";
-import NotificationBar from "../components/NotificationBar";
 
 function HomeContent() {
   const features = [
@@ -53,7 +52,6 @@ function HomeContent() {
   return (
     <div className="home-container">
       {/* <HomePage /> */}
-      <NotificationBar />
       <section className="hero-container">
         <div className="hero-content">
           <h1>Fresh Snacks Delivered to Your Doorstep</h1>
