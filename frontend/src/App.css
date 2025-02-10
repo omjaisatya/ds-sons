@@ -89,8 +89,6 @@
   outline: none;
 }
 
-
-
 .search-bar>input::placeholder {
   color: rgb(150, 53, 53);
 }
@@ -102,6 +100,19 @@
   transform: translateY(-50%);
   color: gray;
   cursor: pointer;
+}
+
+.logout-btn {
+  background-color: var(--danger-color);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--font-color-light);
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: var(--button-color-hover);
 }
 
 
@@ -231,10 +242,9 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--font-color);
+  background-color: rgb(238, 233, 233);
   overflow: hidden;
   white-space: nowrap;
-  padding: 10px 0;
 }
 
 .notification-text {
@@ -242,7 +252,7 @@
   font-size: 16px;
   font-weight: bold;
   color: var(--font-color-dark);
-  animation: scrollText 20s linear infinite;
+  animation: scrollText 30s linear infinite;
 }
 
 @keyframes scrollText {
@@ -254,7 +264,6 @@
     transform: translateX(-100%);
   }
 }
-
 
 /* Notification Bar end */
 

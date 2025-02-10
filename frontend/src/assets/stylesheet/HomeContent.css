@@ -23,7 +23,7 @@
 
 .hero-content p {
     font-size: 18px;
-    margin: 30px;
+    margin: 20px;
     max-width: 700px;
 }
 
@@ -34,6 +34,7 @@
     text-decoration: none;
     border-radius: 8px;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .btn-primary:hover {
@@ -249,10 +250,14 @@
 
 @media (max-width: 768px) {
     .hero-container {
-        height: 70vh;
+        height: 75vh;
         background-size: cover;
         background-attachment: fixed;
         background-position: center center;
+    }
+
+    .hero-content {
+        margin: 20px 0;
     }
 
     .hero h1 {
