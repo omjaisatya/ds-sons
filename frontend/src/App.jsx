@@ -20,8 +20,6 @@ import AdminLogin from "./components/AdminLogin";
 import HomeContent from "./pages/HomeContent";
 import NotFound from "./components/NotFound";
 import ErrorPage from "./pages/ErrorPage";
-import AdminChat from "./chat/AdminChat";
-import CustomerChat from "./chat/CustomerChat";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +27,6 @@ function App() {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
-      // dispatch(setUser(userData));
       dispatch(authActions.setUser(userData));
     }
   }, [dispatch]);
@@ -38,7 +35,6 @@ function App() {
     <Router basename="/">
       <Header />
       <Routes>
-        {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/" element={<HomeContent />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
