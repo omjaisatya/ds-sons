@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, BottomNavigation } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LoginScreen from "../screens/LoginScreen";
+import HomeScreen from "../screens/HomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -77,26 +78,7 @@ export default function ButtomNavigationBar() {
           },
         }}
       />
-
-      <Tab.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          tabBarLabel: "Login",
-          tabBarIcon: ({ color, size }) => {
-            return <Icon name="cog" size={size} color={color} />;
-          },
-        }}
-      />
     </Tab.Navigator>
-  );
-}
-
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineLarge">Home!</Text>
-    </View>
   );
 }
 
