@@ -35,10 +35,10 @@ export const createAdminUser = async (email, password) => {
   return userCredential.user;
 };
 
-// export const auth = getAuth(app);
+export const auth = getAuth(app);
 
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
+// const auth = initializeAuth(app, {
+//   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+// });
 
 export const db = getFirestore(app);

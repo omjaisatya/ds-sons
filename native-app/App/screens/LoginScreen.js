@@ -20,6 +20,7 @@ export default function LoginScreen({ navigation }) {
         email,
         password
       );
+
       dispatch(login(userCredential.user));
     } catch (error) {
       alert(error.message);

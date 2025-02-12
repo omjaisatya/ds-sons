@@ -1,41 +1,82 @@
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { CommonActions, NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { Text, BottomNavigation } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from "../screens/HomeScreen";
-import { useSelector } from "react-redux";
-// import CartScreen from '../screens/CartScreen';
-// import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const AppTabs = () => (
   <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        const icons = {
-          Home: "home",
-          Cart: "cart",
-          Profile: "account",
-        };
-        return (
-          <MaterialCommunityIcons
-            name={icons[route.name]}
-            size={size}
-            color={color}
-          />
-        );
-      },
-    })}
+    screenOptions={{
+      headerShown: false,
+    }}
+    tabBar={({ navigation, state, descriptors, insets }) => (
+      <BottomNavigation.Bar
+        navigationState={state}
+        safeAreaInsets={insets}
+        onTabPress={({ route, preventDefault }) => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (event.defaultPrevented) {
+            preventDefault();
+          } else {
+            navigation.dispatch({
+              ...CommonActions.navigate(route.name, route.params),
+              target: state.key,
+            });
+          }
+        }}
+        renderIcon={({ route, focused, color }) => {
+          const { options } = descriptors[route.key];
+          return options.tabBarIcon
+            ? options.tabBarIcon({ focused, color, size: 24 })
+            : null;
+        }}
+        getLabelText={({ route }) => {
+          const { options } = descriptors[route.key];
+          return options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.title;
+        }}
+      />
+    )}
   >
-    <Tab.Screen name="Home" component={HomeScreen} />
-    {/* <Tab.Screen name="Cart" component={CartScreen} />
-    <Tab.Screen name="Profile" component={ProfileScreen} /> */}
+    <Tab.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{
+        tabBarLabel: "Home",
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="home" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Settings"
+      component={SettingsScreen}
+      options={{
+        tabBarLabel: "Settings",
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="cog" size={size} color={color} />
+        ),
+      }}
+    />
   </Tab.Navigator>
 );
 
@@ -66,3 +107,19 @@ export const RootNavigator = () => {
     </NavigationContainer>
   );
 };
+
+function SettingsScreen() {
+  return (
+    <View style={styles.container}>
+      <Text variant="headlineMedium">Settings!</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
