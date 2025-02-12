@@ -1,30 +1,81 @@
-import React, { useContext, useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { Button, TextInput, Title } from "react-native-paper";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebaseConfig";
+import { useDispatch } from "react-redux";
+import { login } from "../store/userSlice";
 
-const LoginScreen = () => {
-  const { login } = useContext(AuthContext);
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      dispatch(login(userCredential.user));
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-      <Text>Email:</Text>
+    <View style={styles.container}>
+      <Title style={styles.title}>Login to Your Account</Title>
       <TextInput
+        label="Email"
+        mode="outlined"
         value={email}
         onChangeText={setEmail}
-        style={{ borderBottomWidth: 1, marginBottom: 10 }}
+        style={styles.input}
       />
-      <Text>Password:</Text>
       <TextInput
+        label="Password"
+        mode="outlined"
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
-        style={{ borderBottomWidth: 1, marginBottom: 20 }}
+        style={styles.input}
       />
-      <Button title="Login" onPress={() => login(email, password)} />
+      <Button
+        mode="contained"
+        loading={loading}
+        onPress={handleLogin}
+        style={styles.button}
+      >
+        Login
+      </Button>
+      <Button onPress={() => navigation.navigate("Register")}>
+        Don't have an account? Register
+      </Button>
     </View>
   );
-};
+}
 
-export default LoginScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  input: {
+    marginBottom: 15,
+  },
+  button: {
+    marginTop: 10,
+  },
+});
