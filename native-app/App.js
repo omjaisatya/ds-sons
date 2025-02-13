@@ -5,6 +5,7 @@ import { RootNavigator } from "./App/navigation";
 import { useEffect } from "react";
 import { restoreUser } from "./App/store/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import "react-native-gesture-handler";
 
 export default function App() {
   useEffect(() => {
