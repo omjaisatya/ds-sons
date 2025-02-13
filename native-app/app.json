@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "DS Sons",
-    "slug": "native-app",
+    "slug": "DSSons",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.jpeg",
@@ -24,6 +24,11 @@
     },
     "web": {
       "favicon": "./assets/icon.jpeg"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "68a690c0-5507-4274-89e1-bdad23c1c3ef"
+      }
     }
   }
 }
