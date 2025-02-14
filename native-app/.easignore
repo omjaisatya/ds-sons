@@ -4,9 +4,10 @@
 node_modules/
 
 # Build output directories
-android/build/
-ios/build/
 android/app/build/
+android/.gradle/
+ios/build/
+ios/Pods/
 
 # Expo-specific files
 .expo/
