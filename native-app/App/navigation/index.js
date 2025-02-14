@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { CommonActions, NavigationContainer } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useSelector } from "react-redux";
+import { CommonActions } from "@react-navigation/native";
 import { Text, BottomNavigation } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+import SwipeWelcomeScreen from "../screens/SwipeWelcomeScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -82,11 +85,33 @@ const AppTabs = () => (
 
 export const RootNavigator = () => {
   const { user } = useSelector((state) => state.user);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+
+  useEffect(() => {
+    const checkFirstLaunch = async () => {
+      const hasLaunched = await AsyncStorage.getItem("hasLaunched");
+      if (hasLaunched === null) {
+        await AsyncStorage.setItem("hasLaunched", "true");
+        setIsFirstLaunch(true);
+      } else {
+        setIsFirstLaunch(false);
+      }
+    };
+    checkFirstLaunch();
+  }, []);
+
+  if (isFirstLaunch === null) return null;
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {user ? (
+        {isFirstLaunch ? (
+          <Stack.Screen
+            name="SwipeWelcome"
+            component={SwipeWelcomeScreen}
+            options={{ headerShown: false }}
+          />
+        ) : user ? (
           <Stack.Screen
             name="App"
             component={AppTabs}
