@@ -6,21 +6,9 @@ import { useEffect } from "react";
 import { restoreUser } from "./App/store/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import "react-native-gesture-handler";
-import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 
-SplashScreen.preventAutoHideAsync();
-
 export default function App() {
-  useEffect(() => {
-    const prepare = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      await SplashScreen.hideAsync();
-    };
-
-    prepare();
-  }, []);
-
   useEffect(() => {
     const checkUser = async () => {
       const user = await AsyncStorage.getItem("user");
