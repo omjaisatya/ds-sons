@@ -77,7 +77,10 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Card style={styles.card} mode="elevated">
-        <Card.Title title="Welcome!" subtitle={userData?.name || "Guest"} />
+        <Card.Title
+          title="Welcome!"
+          subtitle={userData?.name || "Failed to Load Name"}
+        />
         <Card.Actions>
           <Button mode="contained" onPress={handleLogout} icon="logout">
             Logout
