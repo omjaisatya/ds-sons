@@ -1,0 +1,49 @@
+name: Expo EAS Build
+
+on:
+  push:
+    branches:
+      - features
+  pull_request:
+
+jobs:
+  build:
+    name: Build and Upload to EAS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Authenticate with Expo
+        run: |
+          echo "${{ secrets.EXPO_TOKEN }}" | expo login --non-interactive --username "${{ secrets.EXPO_USERNAME }}" --password "${{ secrets.EXPO_PASSWORD }}"
+
+      - name: Set Firebase Environment Variables
+        run: |
+          echo "EXPO_PUBLIC_APIKEY=${{ secrets.EXPO_PUBLIC_APIKEY }}" >> $GITHUB_ENV
+          echo "EXPO_PUBLIC_AUTHDOMAIN=${{ secrets.EXPO_PUBLIC_AUTHDOMAIN }}" >> $GITHUB_ENV
+          echo "EXPO_PUBLIC_PROJECTID=${{ secrets.EXPO_PUBLIC_PROJECTID }}" >> $GITHUB_ENV
+          echo "EXPO_PUBLIC_STORAGEBUCKET=${{ secrets.EXPO_PUBLIC_STORAGEBUCKET }}" >> $GITHUB_ENV
+          echo "EXPO_PUBLIC_MESSAGINGSENDERID=${{ secrets.EXPO_PUBLIC_MESSAGINGSENDERID }}" >> $GITHUB_ENV
+          echo "EXPO_PUBLIC_APPID=${{ secrets.EXPO_PUBLIC_APPID }}" >> $GITHUB_ENV
+          echo "EXPO_PUBLIC_MEASUREMENTID=${{ secrets.EXPO_PUBLIC_MEASUREMENTID }}" >> $GITHUB_ENV
+
+      - name: Run Expo EAS Build (Android)
+        run: eas build --platform android --non-interactive --profile production
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Run Expo EAS Build (iOS)
+        run: eas build --platform ios --non-interactive --profile production
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
