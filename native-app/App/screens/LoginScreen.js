@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
 import { useDispatch } from "react-redux";
 import { login } from "../store/userSlice";
+import { CommonActions } from "@react-navigation/native";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -22,6 +23,12 @@ export default function LoginScreen({ navigation }) {
       );
 
       dispatch(login(userCredential.user));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "App" }],
+        })
+      );
     } catch (error) {
       alert(error.message);
     } finally {

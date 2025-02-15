@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
 import { Button, Card, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingScreen from "../components/LoadingScreen";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ const HomeScreen = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      await AsyncStorage.removeItem("userData"); // Clear stored user data
+      await AsyncStorage.removeItem("userData");
       dispatch(logout());
     } catch (error) {
       console.error("Logout failed:", error);
@@ -71,7 +72,7 @@ const HomeScreen = () => {
   };
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#007bff" />;
+    return <LoadingScreen />;
   }
 
   return (
@@ -104,5 +105,10 @@ const styles = StyleSheet.create({
   card: {
     width: "100%",
     paddingVertical: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

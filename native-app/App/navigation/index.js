@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CommonActions } from "@react-navigation/native";
 import { Text, BottomNavigation, ActivityIndicator } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 import SwipeWelcomeScreen from "../screens/SwipeWelcomeScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from "../screens/HomeScreen";
+import { checkFirstLaunch } from "../store/appSlice";
+import { restoreUser } from "../store/userSlice";
+import LoadingScreen from "../components/LoadingScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,32 +86,17 @@ const AppTabs = () => (
 );
 
 export const RootNavigator = () => {
-  const { user } = useSelector((state) => state.user);
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  const dispatch = useDispatch();
+  const { isFirstLaunch, appLoading } = useSelector((state) => state.app);
+  const { user, status: userStatus } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const checkFirstLaunch = async () => {
-      try {
-        const hasLaunched = await AsyncStorage.getItem("hasLaunched");
-        if (hasLaunched === null) {
-          await AsyncStorage.setItem("hasLaunched", "true");
-          setIsFirstLaunch(true);
-        } else {
-          setIsFirstLaunch(false);
-        }
-      } catch (error) {
-        console.error("Error checking AsyncStorage:", error);
-      }
-    };
-    checkFirstLaunch();
-  }, []);
+    dispatch(checkFirstLaunch());
+    dispatch(restoreUser());
+  }, [dispatch]);
 
-  if (isFirstLaunch === null) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#ff9800" />
-      </View>
-    );
+  if (appLoading || userStatus === "loading") {
+    return <LoadingScreen />;
   }
 
   return (
@@ -121,15 +108,7 @@ export const RootNavigator = () => {
             component={SwipeWelcomeScreen}
             options={{ headerShown: false }}
           />
-        ) : null}
-
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-
-        {user ? (
+        ) : user ? (
           <Stack.Screen
             name="App"
             component={AppTabs}
@@ -137,6 +116,11 @@ export const RootNavigator = () => {
           />
         ) : (
           <>
+            <Stack.Screen
+              name="Welcome"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
           </>

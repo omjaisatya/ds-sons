@@ -1,56 +1,90 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Swiper from "react-native-swiper";
 import { Button } from "react-native-paper";
+import { CommonActions } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { checkFirstLaunch } from "../store/appSlice";
+
+const { width, height } = Dimensions.get("window");
 
 export default function SwipeWelcomeScreen({ navigation }) {
+  const dispatch = useDispatch();
+
   const finishIntro = async () => {
-    await AsyncStorage.setItem("hasLaunched", "true");
-    console.log("Navigating Route");
-    navigation.replace("Welcome");
+    try {
+      await AsyncStorage.setItem("hasLaunched", "true");
+      dispatch(checkFirstLaunch());
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Welcome" }],
+        })
+      );
+    } catch (error) {
+      console.error("Error finishing intro:", error);
+    }
   };
 
   return (
-    <Swiper loop={false} dotColor="#ccc" activeDotColor="#ff9800">
-      <ImageBackground
-        source={require("../../assets/splash.png")}
-        style={styles.slide}
-      >
-        <View style={styles.overlay}>
-          <Text style={styles.title}> Welcome to DS & Sons! </Text>
-          <Text style={styles.subtitle}>
-            Your One-Stop Shop for Authentic Indian Groceries
+    <Swiper
+      loop={false}
+      showsPagination={true}
+      dotStyle={styles.dot}
+      activeDotStyle={styles.activeDot}
+    >
+      <View style={styles.slide}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Welcome to DS Sons!</Text>
+          <Text style={styles.description}>
+            Your one-stop shop for fresh and authentic Indian groceries.
           </Text>
         </View>
-      </ImageBackground>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../assets/slideWelcome/slide4.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
 
-      <ImageBackground
-        source={require("../../assets/splash.png")}
-        style={styles.slide}
-      >
-        <View style={styles.overlay}>
-          <Text style={styles.title}> Fresh, Organic & Handpicked! </Text>
-          <Text style={styles.subtitle}>
-            Discover farm-fresh Sattu, Poha, Chivda & more.
+      <View style={styles.slide}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Wide Range of Essentials</Text>
+          <Text style={styles.description}>
+            From Poha to Sattu, Mixtures, Roasted Chana, and etc. – we’ve got it
+            all!
           </Text>
         </View>
-      </ImageBackground>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../assets/slideWelcome/slide2.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
 
-      <ImageBackground
-        source={require("../../assets/splash.png")}
-        style={styles.slide}
-      >
-        <View style={styles.overlay}>
-          <Text style={styles.title}> Get Groceries Delivered Fast!</Text>
-          <Text style={styles.subtitle}>
-            Easy shopping, quick checkout, and doorstep delivery.
+      <View style={styles.slide}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Fast & Reliable Delivery</Text>
+          <Text style={styles.description}>
+            Get your groceries delivered to your doorstep, hassle-free!
           </Text>
-          <Button mode="contained" style={styles.button} onPress={finishIntro}>
-            Get Started
-          </Button>
         </View>
-      </ImageBackground>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../assets/slideWelcome/slide3.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </View>
+        <Button mode="contained" onPress={finishIntro} style={styles.button}>
+          Get Started
+        </Button>
+      </View>
     </Swiper>
   );
 }
@@ -58,36 +92,56 @@ export default function SwipeWelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   slide: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
+    justifyContent: "flex-end",
+    paddingBottom: 50,
+    backgroundColor: "#563A9C",
   },
-  overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
-    padding: 20,
-    borderRadius: 10,
+  textContainer: {
+    position: "absolute",
+    top: 80,
+    width: "90%",
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#fff",
     textAlign: "center",
     marginBottom: 10,
   },
-  subtitle: {
-    fontSize: 16,
+  description: {
+    fontSize: 15,
+    color: "#fff",
     textAlign: "center",
-    color: "#f1f1f1",
+    marginBottom: 20,
   },
-  button: {
-    marginTop: 20,
-    // backgroundColor: "#ff9800",
-  },
-  loadingContainer: {
+  imageContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+  },
+  image: {
+    width: width * 0.9,
+    height: height * 0.5,
+  },
+  button: {
+    position: "absolute",
+    bottom: 50,
+    backgroundColor: "#000",
+    width: "80%",
+  },
+  dot: {
+    backgroundColor: "#8B5DFF",
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 3,
+  },
+  activeDot: {
+    backgroundColor: "#AA60C8",
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 3,
   },
 });
