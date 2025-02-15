@@ -40,8 +40,9 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 🚀 Run Expo EAS Build (iOS)
-        working-directory: native-app
-        run: eas build --platform ios --non-interactive --profile production
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      # I'll do it later
+      # - name: 🚀 Run Expo EAS Build (iOS)
+      #   working-directory: native-app
+      #   run: eas build --platform ios --non-interactive --profile production
+      #   env:
+      #     EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
