@@ -14,10 +14,10 @@
     "production": {
       "autoIncrement": true,
       "android": {
-        "resourceClass": "large"
+        "resourceClass": "medium"
       },
       "ios": {
-        "resourceClass": "large"
+        "resourceClass": "medium"
       }
     }
   },
