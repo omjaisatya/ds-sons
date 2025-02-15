@@ -26,6 +26,9 @@ jobs:
         working-directory: native-app
         run: npm ci
 
+      - name: 🚀 Install Expo & EAS CLI
+        run: npm install -g expo-cli eas-cli
+
       - name: 🔐 Authenticate with Expo
         working-directory: native-app
         run: |
