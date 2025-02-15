@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Swiper from "react-native-swiper";
@@ -8,7 +8,7 @@ export default function SwipeWelcomeScreen({ navigation }) {
   const finishIntro = async () => {
     await AsyncStorage.setItem("hasLaunched", "true");
     console.log("Navigating Route");
-    navigation.navigate("Welcome");
+    navigation.replace("Welcome");
   };
 
   return (
@@ -84,5 +84,10 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     // backgroundColor: "#ff9800",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

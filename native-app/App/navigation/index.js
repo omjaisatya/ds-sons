@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CommonActions } from "@react-navigation/native";
-import { Text, BottomNavigation } from "react-native-paper";
+import { Text, BottomNavigation, ActivityIndicator } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import SwipeWelcomeScreen from "../screens/SwipeWelcomeScreen";
@@ -89,18 +89,28 @@ export const RootNavigator = () => {
 
   useEffect(() => {
     const checkFirstLaunch = async () => {
-      const hasLaunched = await AsyncStorage.getItem("hasLaunched");
-      if (hasLaunched === null) {
-        await AsyncStorage.setItem("hasLaunched", "true");
-        setIsFirstLaunch(true);
-      } else {
-        setIsFirstLaunch(false);
+      try {
+        const hasLaunched = await AsyncStorage.getItem("hasLaunched");
+        if (hasLaunched === null) {
+          await AsyncStorage.setItem("hasLaunched", "true");
+          setIsFirstLaunch(true);
+        } else {
+          setIsFirstLaunch(false);
+        }
+      } catch (error) {
+        console.error("Error checking AsyncStorage:", error);
       }
     };
     checkFirstLaunch();
   }, []);
 
-  if (isFirstLaunch === null) return null;
+  if (isFirstLaunch === null) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#ff9800" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
@@ -111,7 +121,15 @@ export const RootNavigator = () => {
             component={SwipeWelcomeScreen}
             options={{ headerShown: false }}
           />
-        ) : user ? (
+        ) : null}
+
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+
+        {user ? (
           <Stack.Screen
             name="App"
             component={AppTabs}
@@ -119,11 +137,6 @@ export const RootNavigator = () => {
           />
         ) : (
           <>
-            <Stack.Screen
-              name="Welcome"
-              component={WelcomeScreen}
-              options={{ headerShown: false }}
-            />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
           </>
@@ -143,6 +156,11 @@ function SettingsScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
