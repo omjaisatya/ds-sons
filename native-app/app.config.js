@@ -1,5 +1,30 @@
 export default {
   expo: {
+    name: "DS Sons",
+    slug: "DSSons",
+    version: "1.0.0",
+    orientation: "portrait",
+    icon: "./assets/icon.jpeg",
+    userInterfaceStyle: "light",
+    newArchEnabled: true,
+    splash: {
+      image: "./assets/splash.png",
+      resizeMode: "cover",
+      backgroundColor: "#ffffff",
+    },
+    ios: {
+      supportsTablet: true,
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: "./assets/icon.jpeg",
+        backgroundColor: "#ffffff",
+      },
+      package: "com.satya.ds",
+    },
+    web: {
+      favicon: "./assets/icon.jpeg",
+    },
     extra: {
       eas: {
         projectId: "68a690c0-5507-4274-89e1-bdad23c1c3ef",
