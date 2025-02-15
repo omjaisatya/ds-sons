@@ -34,10 +34,6 @@ jobs:
         run: |
           echo "${{ secrets.EXPO_TOKEN }}" | expo login --non-interactive --username "${{ secrets.EXPO_USERNAME }}" --password "${{ secrets.EXPO_PASSWORD }}"
 
-      - name: 🛠 Initialize EAS Project (If Not Configured)
-        working-directory: native-app
-        run: eas init --id=${{ secrets.EAS_PROJECT_ID }} --non-interactive
-
       - name: 🚀 Run Expo EAS Build (Android)
         working-directory: native-app
         run: eas build --platform android --non-interactive --profile production
