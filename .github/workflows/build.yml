@@ -1,4 +1,4 @@
-name: Expo EAS Build
+name: Expo EAS Build (Native App)
 
 on:
   push:
@@ -12,41 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 📂 Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Node.js
+      - name: 📦 Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: npm
+          cache-dependency-path: native-app/package-lock.json
 
-      - name: Install Dependencies
-        run: |
-          cd native-app
-          npm install
+      - name: 📥 Navigate to Native App and Install Dependencies
         working-directory: native-app
+        run: npm ci
 
-      - name: Authenticate with Expo
+      - name: 🔐 Authenticate with Expo
+        working-directory: native-app
         run: |
           echo "${{ secrets.EXPO_TOKEN }}" | expo login --non-interactive --username "${{ secrets.EXPO_USERNAME }}" --password "${{ secrets.EXPO_PASSWORD }}"
 
-      - name: Set Firebase Environment Variables
-        run: |
-          echo "EXPO_PUBLIC_APIKEY=${{ secrets.EXPO_PUBLIC_APIKEY }}" >> $GITHUB_ENV
-          echo "EXPO_PUBLIC_AUTHDOMAIN=${{ secrets.EXPO_PUBLIC_AUTHDOMAIN }}" >> $GITHUB_ENV
-          echo "EXPO_PUBLIC_PROJECTID=${{ secrets.EXPO_PUBLIC_PROJECTID }}" >> $GITHUB_ENV
-          echo "EXPO_PUBLIC_STORAGEBUCKET=${{ secrets.EXPO_PUBLIC_STORAGEBUCKET }}" >> $GITHUB_ENV
-          echo "EXPO_PUBLIC_MESSAGINGSENDERID=${{ secrets.EXPO_PUBLIC_MESSAGINGSENDERID }}" >> $GITHUB_ENV
-          echo "EXPO_PUBLIC_APPID=${{ secrets.EXPO_PUBLIC_APPID }}" >> $GITHUB_ENV
-          echo "EXPO_PUBLIC_MEASUREMENTID=${{ secrets.EXPO_PUBLIC_MEASUREMENTID }}" >> $GITHUB_ENV
-
-      - name: Run Expo EAS Build (Android)
+      - name: 🚀 Run Expo EAS Build (Android)
+        working-directory: native-app
         run: eas build --platform android --non-interactive --profile production
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Run Expo EAS Build (iOS)
+      - name: 🚀 Run Expo EAS Build (iOS)
+        working-directory: native-app
         run: eas build --platform ios --non-interactive --profile production
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
