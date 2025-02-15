@@ -3,7 +3,7 @@ name: Expo EAS Build
 on:
   push:
     branches:
-      - features
+      - main
   pull_request:
 
 jobs:
@@ -22,7 +22,10 @@ jobs:
           cache: npm
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd native-app
+          npm install
+        working-directory: native-app
 
       - name: Authenticate with Expo
         run: |
