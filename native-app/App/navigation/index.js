@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -57,7 +56,7 @@ const AppTabs = () => (
             ? options.tabBarLabel
             : options.title !== undefined
             ? options.title
-            : route.title;
+            : route.name;
         }}
       />
     )}
