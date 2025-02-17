@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View } from "react-native";
-import { useDispatch } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
 import { RootNavigator } from "./App/navigation";
 import { StatusBar } from "expo-status-bar";
+import SplashScreenComponent from "./App/components/SplashScreen";
 
 export default function AppContent() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -30,7 +30,7 @@ export default function AppContent() {
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return null;
+    return <SplashScreenComponent />;
   }
 
   return (
