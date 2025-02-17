@@ -1,5 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const restoreUser = createAsyncThunk("user/restoreUser", async () => {
+  const user = await AsyncStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -13,12 +18,21 @@ const userSlice = createSlice({
       state.user = null;
       AsyncStorage.removeItem("user");
     },
-    restoreUser: (state, action) => {
-      state.user = action.payload;
-      state.status = "succeeded";
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(restoreUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(restoreUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(restoreUser.rejected, (state) => {
+        state.status = "failed";
+      });
   },
 });
 
-export const { login, logout, restoreUser } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;
