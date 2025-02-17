@@ -3,7 +3,7 @@ name: Expo EAS Build (Native App)
 on:
   push:
     branches:
-      - main
+      - features
   pull_request:
 
 jobs:
