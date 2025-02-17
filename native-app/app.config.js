@@ -7,11 +7,6 @@ export default {
     icon: "./assets/icon.jpeg",
     userInterfaceStyle: "light",
     newArchEnabled: true,
-    splash: {
-      image: "./assets/splash.png",
-      resizeMode: "cover",
-      backgroundColor: "#ffffff",
-    },
     ios: {
       supportsTablet: true,
     },
@@ -37,5 +32,20 @@ export default {
       expoPublicAppId: process.env.EXPO_PUBLIC_APPID,
       expoPublicMeasurementId: process.env.EXPO_PUBLIC_MEASUREMENTID,
     },
+    plugins: [
+      [
+        "expo-splash-screen",
+        {
+          backgroundColor: "#fff",
+          image: "./assets/splash-light.png",
+          dark: {
+            image: "./assets/logo.png",
+            backgroundColor: "#000000",
+          },
+          imageWidth: 200,
+          resizeMode: "contain",
+        },
+      ],
+    ],
   },
 };
