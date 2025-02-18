@@ -37,7 +37,7 @@ jobs:
       - name: 🚀 Run Expo EAS Build (Android)
         working-directory: native-app
         # run: eas build --platform android --non-interactive --profile production
-        run: eas build --profile preview --platform android
+        run: eas build --profile preview --platform android --clear-cache
 
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -48,3 +48,25 @@ jobs:
       #   run: eas build --platform ios --non-interactive --profile production
       #   env:
       #     EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📥 Download Build Artifact
+        working-directory: native-app
+        run: |
+          BUILD_URL=$(eas build:list --json | jq -r '.[0].artifacts.buildUrl')
+          curl -o app-release.apk "$BUILD_URL"
+
+      - name: 📤 Upload APK as an Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: native-app/app-release.apk
+
+      - name: 🚀 Create GitHub Release and Upload APK
+        uses: softprops/action-gh-release@v1
+        with:
+          files: native-app/app-release.apk
+          tag_name: latest
+          name: "New Release"
+          body: "Latest EAS build"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
