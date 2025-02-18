@@ -52,3 +52,14 @@ jobs:
         with:
           name: app-release-apk
           path: native-app/android/app/build/outputs/apk/release/app-release.apk
+          - name: Create GitHub Release and Upload APK
+          uses: softprops/action-gh-release@v1
+          with:
+            tag_name: v1.0.${{ github.run_number }}
+            release_name: "Release v1.0.${{ github.run_number }}"
+            body: "New Android APK Release"
+            draft: false
+            prerelease: false
+            files: native-app/android/app/build/outputs/apk/release/app-release.apk
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
