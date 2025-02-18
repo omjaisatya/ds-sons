@@ -32,13 +32,10 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: 17
+          java-version: "17"
 
-    - name: Change wrapper permissions
+      - name: Grant execute permission to gradlew
         run: chmod +x native-app/android/gradlew
-        
-    - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
 
       - name: Install dependencies with Gradle
         run: |
@@ -51,7 +48,7 @@ jobs:
           ./gradlew assembleRelease
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: app-release-apk
           path: native-app/android/app/build/outputs/apk/release/app-release.apk
