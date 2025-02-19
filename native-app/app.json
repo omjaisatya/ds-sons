@@ -4,7 +4,7 @@
     "slug": "DSSons",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.jpeg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
@@ -12,13 +12,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.jpeg",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#000"
       },
       "package": "com.satya.ds"
     },
     "web": {
-      "favicon": "./assets/icon.jpeg"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
