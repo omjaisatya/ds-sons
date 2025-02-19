@@ -36,8 +36,8 @@ jobs:
 
       - name: 🚀 Run Expo EAS Build (Android)
         working-directory: native-app
-        # run: eas build --platform android --non-interactive --profile production --clear-cache
-        run: eas build --profile development --platform android
+        run: eas build --platform android --non-interactive --profile production --clear-cache
+        # run: eas build --profile development --platform android
 
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
