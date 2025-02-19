@@ -1,3 +1,4 @@
+import "expo-dev-client";
 import { Provider as PaperProvider } from "react-native-paper";
 import { Provider } from "react-redux";
 import { store } from "./App/store/store";
