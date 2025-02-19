@@ -4,7 +4,7 @@ export default {
     slug: "DSSons",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/icon.jpeg",
+    icon: "./assets/icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
     ios: {
@@ -12,13 +12,13 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/icon.jpeg",
-        backgroundColor: "#ffffff",
+        foregroundImage: "./assets/icon.png",
+        backgroundColor: "#000",
       },
       package: "com.satya.ds",
     },
     web: {
-      favicon: "./assets/icon.jpeg",
+      favicon: "./assets/icon.png",
     },
     extra: {
       eas: {
@@ -32,20 +32,5 @@ export default {
       expoPublicAppId: process.env.EXPO_PUBLIC_APPID,
       expoPublicMeasurementId: process.env.EXPO_PUBLIC_MEASUREMENTID,
     },
-    plugins: [
-      [
-        "expo-splash-screen",
-        {
-          backgroundColor: "#fff",
-          image: "./assets/splash-light.png",
-          dark: {
-            image: "./assets/logo.png",
-            backgroundColor: "#000000",
-          },
-          imageWidth: 200,
-          resizeMode: "contain",
-        },
-      ],
-    ],
   },
 };
