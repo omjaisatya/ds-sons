@@ -11,10 +11,7 @@ export default function SplashScreen() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../assets/splash-light.png")}
-        style={styles.logo}
-      />
+      <Image source={require("../../assets/icon.png")} style={styles.logo} />
       <Text style={styles.footerText}>Satya Prakash</Text>
     </View>
   );
@@ -25,7 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
   },
   logo: {
     width: 120,
