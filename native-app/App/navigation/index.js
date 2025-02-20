@@ -15,6 +15,8 @@ import HomeScreen from "../screens/HomeScreen";
 import { checkFirstLaunch } from "../store/appSlice";
 import { restoreUser } from "../store/userSlice";
 import LoadingScreen from "../components/LoadingScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -108,11 +110,14 @@ export const RootNavigator = () => {
             options={{ headerShown: false }}
           />
         ) : user ? (
-          <Stack.Screen
-            name="App"
-            component={AppTabs}
-            options={{ headerShown: false }}
-          />
+          <>
+            <Stack.Screen
+              name="App"
+              component={AppTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen
@@ -129,13 +134,13 @@ export const RootNavigator = () => {
   );
 };
 
-function SettingsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineMedium">Settings!</Text>
-    </View>
-  );
-}
+// function SettingsScreen() {
+//   return (
+//     <View style={styles.container}>
+//       <Text variant="headlineMedium">Settings!</Text>
+//     </View>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {
