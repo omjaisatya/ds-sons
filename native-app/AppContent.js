@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { RootNavigator } from "./App/navigation";
 import { StatusBar } from "expo-status-bar";
+import { useSelector } from "react-redux";
 import CustomSplashScreen from "./App/components/SplashScreen";
 
 export default function AppContent() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const darkMode = useSelector((state) => state.settings.darkMode);
 
   useEffect(() => {
     async function prepare() {
@@ -30,7 +32,7 @@ export default function AppContent() {
   return (
     <View style={{ flex: 1 }}>
       <RootNavigator />
-      <StatusBar style="auto" />
+      <StatusBar style={darkMode ? "light" : "dark"} />
     </View>
   );
 }
