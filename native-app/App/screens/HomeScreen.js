@@ -5,13 +5,14 @@ import { logout } from "../store/userSlice";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
-import { Button, Card, Text } from "react-native-paper";
+import { Button, Card, Text, useTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingScreen from "../components/LoadingScreen";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const auth = getAuth();
+  const { colors } = useTheme();
 
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -76,7 +77,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Card style={styles.card} mode="elevated">
         <Card.Title
           title="Welcome!"
@@ -84,7 +85,8 @@ const HomeScreen = () => {
         />
         <Card.Actions>
           <Button mode="contained" onPress={handleLogout} icon="logout">
-            Logout
+            {/* Logout */}
+            <Text>Logout</Text>
           </Button>
         </Card.Actions>
       </Card>
