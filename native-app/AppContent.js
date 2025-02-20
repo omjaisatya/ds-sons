@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View } from "react-native";
-import { useDispatch } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
 import { RootNavigator } from "./App/navigation";
 import { StatusBar } from "expo-status-bar";
+import CustomSplashScreen from "./App/components/SplashScreen";
 
 export default function AppContent() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -12,29 +12,23 @@ export default function AppContent() {
     async function prepare() {
       try {
         await SplashScreen.preventAutoHideAsync();
-        await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);
-      } finally {
-        setAppIsReady(true);
       }
     }
-
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
+  const handleSplashFinish = () => {
+    setAppIsReady(true);
+  };
 
   if (!appIsReady) {
-    return null;
+    return <CustomSplashScreen onFinish={handleSplashFinish} />;
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <View style={{ flex: 1 }}>
       <RootNavigator />
       <StatusBar style="auto" />
     </View>
