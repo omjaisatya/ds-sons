@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TextInput, Alert } from "react-native";
 import { useTheme, Button, ActivityIndicator } from "react-native-paper";
-import { getAuth, updateProfile, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  PhoneAuthProvider,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  updatePhoneNumber,
+} from "firebase/auth";
 import { db } from "../config/firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,6 +23,10 @@ const ProfileScreen = () => {
   const [mobile, setMobile] = useState("");
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const [verificationId, setVerificationId] = useState(null);
+  const [otp, setOtp] = useState("");
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async (currentUser) => {
@@ -61,20 +72,58 @@ const ProfileScreen = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleUpdateProfile = async () => {
-    if (!user) return;
-    setUpdating(true);
+  const sendOtp = async () => {
+    if (!mobile.match(/^\d{10}$/)) {
+      Alert.alert(
+        "Invalid Number",
+        "Please enter a valid 10-digit mobile number."
+      );
+      return;
+    }
+
     try {
-      await updateProfile(user, { displayName: name, mobile });
-      await updateDoc(doc(db, "users", user.uid), { name, mobile });
-      const updatedUserData = { ...userData, name, mobile };
+      setSendingOtp(true);
+
+      const phoneProvider = new PhoneAuthProvider(auth);
+      const verificationId = await phoneProvider.verifyPhoneNumber(
+        `+91${mobile}`,
+        null
+      );
+
+      setVerificationId(verificationId);
+      Alert.alert("OTP Sent", "Please check your SMS for the OTP.");
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      Alert.alert("Error", error.message);
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const verifyOtpAndUpdate = async () => {
+    if (!verificationId || !otp.match(/^\d{6}$/)) {
+      Alert.alert("Error", "Please enter a valid 6-digit OTP.");
+      return;
+    }
+
+    try {
+      setVerifyingOtp(true);
+      const credential = PhoneAuthProvider.credential(verificationId, otp);
+      await updatePhoneNumber(auth.currentUser, credential);
+
+      await updateDoc(doc(db, "users", user.uid), { mobile });
+
+      const updatedUserData = { ...userData, mobile };
       setUserData(updatedUserData);
       await AsyncStorage.setItem("userData", JSON.stringify(updatedUserData));
-      Alert.alert("Success", "Profile updated successfully!");
+
+      Alert.alert("Success", "Mobile number updated successfully!");
+      setVerificationId(null);
+      setOtp("");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
-      setUpdating(false);
+      setVerifyingOtp(false);
     }
   };
 
@@ -93,24 +142,46 @@ const ProfileScreen = () => {
         placeholder="Enter your name"
         placeholderTextColor={theme.colors.placeholder}
       />
+
       <TextInput
         style={[styles.input, { color: theme.colors.text }]}
         value={mobile}
         onChangeText={setMobile}
-        placeholder="Enter Mobile"
+        placeholder="Enter Mobile (10-digit)"
+        keyboardType="phone-pad"
         placeholderTextColor={theme.colors.placeholder}
       />
 
-      {updating ? (
-        <ActivityIndicator animating={true} />
-      ) : (
-        <Button
-          mode="contained"
-          onPress={handleUpdateProfile}
-          style={styles.updateButton}
-        >
-          Update Profile
-        </Button>
+      <Button
+        mode="contained"
+        onPress={sendOtp}
+        style={styles.updateButton}
+        loading={sendingOtp}
+        disabled={sendingOtp}
+      >
+        {sendingOtp ? "Sending OTP..." : "Send OTP"}
+      </Button>
+
+      {verificationId && (
+        <>
+          <TextInput
+            style={[styles.input, { color: theme.colors.text }]}
+            value={otp}
+            onChangeText={setOtp}
+            placeholder="Enter OTP"
+            keyboardType="numeric"
+            placeholderTextColor={theme.colors.placeholder}
+          />
+          <Button
+            mode="contained"
+            onPress={verifyOtpAndUpdate}
+            style={styles.updateButton}
+            loading={verifyingOtp}
+            disabled={verifyingOtp}
+          >
+            {verifyingOtp ? "Verifying..." : "Verify OTP & Update"}
+          </Button>
+        </>
       )}
     </View>
   );
@@ -123,9 +194,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
-  avatar: {
-    marginBottom: 10,
-  },
   input: {
     width: "90%",
     borderWidth: 1,
@@ -137,23 +205,6 @@ const styles = StyleSheet.create({
   },
   updateButton: {
     marginTop: 10,
-  },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  label: {
-    fontSize: 18,
-    marginRight: 10,
-  },
-  logoutButton: {
-    marginTop: 30,
-  },
-  authMessage: {
-    textAlign: "center",
-    marginTop: 50,
-    fontSize: 18,
   },
 });
 
