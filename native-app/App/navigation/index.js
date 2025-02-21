@@ -17,6 +17,9 @@ import { restoreUser } from "../store/userSlice";
 import LoadingScreen from "../components/LoadingScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import ProductDetailsScreen from "../screens/ProductDetailsScreen";
+import CartScreen from "../screens/CartScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -74,6 +77,26 @@ const AppTabs = () => (
       }}
     />
     <Tab.Screen
+      name="Cart"
+      component={CartScreen}
+      options={{
+        tabBarLabel: "Cart",
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="cart" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Favorites"
+      component={FavoritesScreen}
+      options={{
+        tabBarLabel: "Favorites",
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="cards-heart" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
       name="Settings"
       component={SettingsScreen}
       options={{
@@ -117,6 +140,10 @@ export const RootNavigator = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen
+              name="ProductDetails"
+              component={ProductDetailsScreen}
+            />
           </>
         ) : (
           <>
@@ -133,14 +160,6 @@ export const RootNavigator = () => {
     </NavigationContainer>
   );
 };
-
-// function SettingsScreen() {
-//   return (
-//     <View style={styles.container}>
-//       <Text variant="headlineMedium">Settings!</Text>
-//     </View>
-//   );
-// }
 
 const styles = StyleSheet.create({
   container: {
