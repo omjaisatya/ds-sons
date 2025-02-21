@@ -1,4 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const loadFavorites = createAsyncThunk(
+  "products/loadFavorites",
+  async () => {
+    try {
+      const storedFavorites = await AsyncStorage.getItem("favorites");
+      return storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+      console.error("Error loading favorites:", error);
+      return [];
+    }
+  }
+);
 
 const initialState = {
   products: [
@@ -6,7 +20,7 @@ const initialState = {
       id: "1",
       name: "Premium Raw Poha",
       price: 20,
-      category: "breakfast",
+      category: "poha",
       image: "/images/raw-poha-1.png",
       weight: "500g",
       description: "Traditional flattened rice, perfect for quick breakfast",
@@ -17,7 +31,7 @@ const initialState = {
       id: "2",
       name: "Masala Mixture",
       price: 85,
-      category: "snacks",
+      category: "mixture",
       image: "/images/mixture-namkeen.png",
       weight: "1kg",
       description: "Crispy savory snack mix",
@@ -26,55 +40,70 @@ const initialState = {
     },
     {
       id: "3",
-      name: "Roasted Chana",
-      price: 85,
-      category: "snacks",
-      image: "/images/roasted-channa.png",
-      weight: "1kg",
-      description: "Crispy savory snack mix",
-      ingredients: "Chickpea flour, peanuts, spices",
-      dietary: "Vegetarian",
-    },
-    {
-      id: "4",
       name: "Channa Sattu",
       price: 85,
-      category: "snacks",
+      category: "sattu",
       image: "/images/channa-sattu.png",
       weight: "1kg",
-      description: "Crispy savory snack mix",
-      ingredients: "Chickpea flour, peanuts, spices",
+      description: "Nutrient-rich roasted gram flour",
+      ingredients: "Roasted gram",
       dietary: "Vegetarian",
     },
   ],
-  categories: [
-    {
-      id: "1",
-      name: "Breakfast",
-      image: "/images/category/breakfast-category-home.png",
-    },
-    {
-      id: "2",
-      name: "Snacks",
-      image: "/images/category/snack-category-home.png",
-    },
-    {
-      id: "3",
-      name: "Drinks",
-      image: "/images/category/drink-category-home.png",
-    },
-  ],
+  favorites: [],
+  selectedCategory: "all",
+  searchQuery: "",
 };
 
 const productSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleFavorite(state, action) {
+      const productId = action.payload;
+      const index = state.favorites.indexOf(productId);
+      if (index >= 0) {
+        state.favorites.splice(index, 1);
+      } else {
+        state.favorites.push(productId);
+      }
+
+      AsyncStorage.setItem("favorites", JSON.stringify(state.favorites)).catch(
+        (error) => console.error("Error saving favorites:", error)
+      );
+    },
+
+    setSelectedCategory(state, action) {
+      state.selectedCategory = action.payload;
+    },
+
+    setSearchQuery(state, action) {
+      state.searchQuery = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadFavorites.fulfilled, (state, action) => {
+      state.favorites = action.payload;
+    });
+  },
 });
 
-export const selectProducts = (state) => state.products.products;
-export const selectProductById = (state, productId) =>
-  state.products.products.find((product) => product.id === productId);
-export const selectCategories = (state) => state.products.categories;
+export const selectFilteredProducts = (state) => {
+  const { products, selectedCategory, searchQuery, favorites } = state.products;
 
+  return products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || product.category === selectedCategory;
+    const isFavorite =
+      selectedCategory === "favorites" ? favorites.includes(product.id) : true;
+
+    return matchesSearch && matchesCategory && isFavorite;
+  });
+};
+
+export const { toggleFavorite, setSelectedCategory, setSearchQuery } =
+  productSlice.actions;
 export default productSlice.reducer;
