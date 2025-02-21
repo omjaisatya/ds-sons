@@ -51,14 +51,9 @@ const cartSlice = createSlice({
       const existingItem = state.items.find((item) => item.id === id);
       if (!existingItem) return;
 
-      state.totalQuantity--;
+      state.items = state.items.filter((item) => item.id !== id);
 
-      if (existingItem.quantity === 1) {
-        state.items = state.items.filter((item) => item.id !== id);
-      } else {
-        existingItem.quantity--;
-        existingItem.totalPrice -= existingItem.price;
-      }
+      state.totalQuantity -= existingItem.quantity;
 
       saveCartToStorage(state);
     },
@@ -67,14 +62,44 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
       AsyncStorage.removeItem("cart");
     },
+    increaseQuantity(state, action) {
+      const id = action.payload;
+      const existingItem = state.items.find((item) => item.id === id);
+      if (existingItem) {
+        existingItem.quantity++;
+        existingItem.totalPrice += existingItem.price;
+      }
+      saveCartToStorage(state);
+    },
+    decreaseQuantity(state, action) {
+      const id = action.payload;
+      const existingItem = state.items.find((item) => item.id === id);
+      if (existingItem && existingItem.quantity > 1) {
+        existingItem.quantity--;
+        existingItem.totalPrice -= existingItem.price;
+      }
+      saveCartToStorage(state);
+    },
   },
 });
 
-export const cartActions = cartSlice.actions;
-
 export const loadCart = () => async (dispatch) => {
   const cart = await loadCartFromStorage();
-  dispatch(cartActions.setCart(cart));
+  dispatch(setCart(cart));
 };
 
+export const {
+  increaseQuantity,
+  decreaseQuantity,
+  setCart,
+  addItem,
+  removeItem,
+  clearCart,
+} = cartSlice.actions;
+
+export const cartActions = cartSlice.actions;
 export default cartSlice.reducer;
+
+export const selectCartItems = (state) => state.cart.items;
+export const selectTotalPrice = (state) =>
+  state.cart.items.reduce((total, item) => total + item.totalPrice, 0);
