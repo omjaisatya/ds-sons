@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
-import { useDispatch } from "react-redux";
-import { logout } from "../store/userSlice";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { View, StyleSheet, FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
-import { Button, Card, Text, useTheme } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { Appbar, Badge, Searchbar } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingScreen from "../components/LoadingScreen";
+import CategoryFilter from "../components/CategoryFilter";
+import ProductList from "../components/ProductList";
+import WelcomeUser from "../components/WelcomeUser";
 
 const HomeScreen = () => {
-  const dispatch = useDispatch();
-  const auth = getAuth();
-  const { colors } = useTheme();
-
-  const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [recentSearches, setRecentSearches] = useState([]);
+
+  const dispatch = useDispatch();
+  const auth = getAuth();
+  const navigation = useNavigation();
+  const totalItems = useSelector((state) => state.cart?.totalQuantity || 0);
 
   useEffect(() => {
     const fetchUserData = async (currentUser) => {
@@ -48,7 +54,6 @@ const HomeScreen = () => {
     };
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
       if (currentUser) {
         await fetchUserData(currentUser);
       } else {
@@ -57,60 +62,83 @@ const HomeScreen = () => {
       }
     });
 
+    const loadSearches = async () => {
+      const searches = await AsyncStorage.getItem("recentSearches");
+      setRecentSearches(searches ? JSON.parse(searches) : []);
+    };
+    loadSearches();
     loadUserFromStorage();
 
     return () => unsubscribe();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      await AsyncStorage.removeItem("userData");
-      dispatch(logout());
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const updatedSearches = [
+      query,
+      ...recentSearches.filter((q) => q !== query),
+    ].slice(0, 5);
+    setRecentSearches(updatedSearches);
+    AsyncStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
   if (loading) {
     return <LoadingScreen />;
   }
 
-  return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Card style={styles.card} mode="elevated">
-        <Card.Title
-          title="Welcome!"
-          subtitle={userData?.name || "Failed to Load Name"}
-        />
-        <Card.Actions>
-          <Button mode="contained" onPress={handleLogout} icon="logout">
-            {/* Logout */}
-            <Text>Logout</Text>
-          </Button>
-        </Card.Actions>
-      </Card>
+  const renderHeader = () => (
+    <View>
+      <Appbar.Header>
+        <Appbar.Content title="Our Products" />
+        <View style={{ position: "relative" }}>
+          <Appbar.Action
+            icon="cart"
+            onPress={() => navigation.navigate("Cart")}
+          />
+          {totalItems > 0 && (
+            <Badge
+              style={{
+                position: "absolute",
+                top: 5,
+                right: 5,
+                backgroundColor: "red",
+              }}
+            >
+              {totalItems}
+            </Badge>
+          )}
+        </View>
+      </Appbar.Header>
+
+      <WelcomeUser username={userData?.name} />
+
+      <Searchbar
+        placeholder="Search products..."
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+        style={{ margin: 16 }}
+      />
+
+      <CategoryFilter
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
     </View>
+  );
+
+  return (
+    <FlatList
+      ListHeaderComponent={renderHeader}
+      data={[{ key: "content" }]}
+      renderItem={() => (
+        <ProductList
+          searchQuery={searchQuery}
+          selectedCategory={selectedCategory}
+        />
+      )}
+      keyExtractor={(item) => item.key}
+    />
   );
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-    paddingHorizontal: 20,
-  },
-  card: {
-    width: "100%",
-    paddingVertical: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
