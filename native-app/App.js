@@ -1,4 +1,3 @@
-// import { Provider as PaperProvider } from "react-native-paper";
 import { Provider } from "react-redux";
 import { store } from "./App/store/store";
 import "react-native-gesture-handler";
@@ -9,6 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ThemeProvider from "./App/theme/ThemeProvider";
 import * as Font from "expo-font";
 import LoadingScreen from "./App/components/LoadingScreen";
+import { loadCart } from "./App/store/cartSlice";
+import { loadFavorites } from "./App/store/productSlice";
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -21,15 +22,22 @@ const loadFonts = async () => {
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+
   useEffect(() => {
-    loadFonts().then(() => setFontsLoaded(true));
-    const checkUser = async () => {
+    const initializeApp = async () => {
+      await loadFonts();
+      setFontsLoaded(true);
+
       const user = await AsyncStorage.getItem("user");
       if (user) {
         store.dispatch(restoreUser(JSON.parse(user)));
       }
+
+      store.dispatch(loadCart());
+      store.dispatch(loadFavorites());
     };
-    checkUser();
+
+    initializeApp();
   }, []);
 
   if (!fontsLoaded) {
